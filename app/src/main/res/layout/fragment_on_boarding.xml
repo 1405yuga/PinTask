@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:text="Pin and prioritize your tasks\ndirectly in your notification bar!"
         android:textAlignment="center"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:fontFamily="@font/montserrat"
         android:layout_marginBottom="20dp"/>
 
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:text="Get Started"
             android:layout_marginHorizontal="16dp"
-            android:fontFamily="@font/montserrat"
+            android:fontFamily="@font/montserrat_semibold"
             android:layout_gravity="center"/>
     </com.google.android.material.card.MaterialCardView>
 
