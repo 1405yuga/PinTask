@@ -30,13 +30,6 @@ class OnBoardingFragment : Fragment() {
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private var firebaseAuth = FirebaseAuth.getInstance()
 
-    override fun onStart() {
-        super.onStart()
-        //check if already signedin
-        if(GoogleSignIn.getLastSignedInAccount(requireContext())!=null) nextFragment()
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -104,8 +97,8 @@ class OnBoardingFragment : Fragment() {
 
     private fun nextFragment(){
         findNavController().apply {
-            popBackStack(R.id.onBoardingFragment,true)
             navigate(R.id.menuFragment)
+            popBackStack(R.id.onBoardingFragment,true)
         }
     }
 }
