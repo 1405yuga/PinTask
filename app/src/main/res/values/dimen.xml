@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="clickable_min_size">48dp</dimen>
+    <dimen name="fragment_margin_horizontal">16dp</dimen>
+    <dimen name="fragment_margin_vertical">12dp</dimen>
+</resources>
