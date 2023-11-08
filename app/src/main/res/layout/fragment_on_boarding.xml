@@ -1,44 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".OnBoardingFragment.OnBoardingFragment"
-    android:orientation="vertical"
-    android:gravity="center"
     android:layout_marginHorizontal="@dimen/fragment_margin_horizontal"
-    android:layout_marginVertical="@dimen/fragment_margin_vertical">
+    android:layout_marginVertical="@dimen/fragment_margin_vertical"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".OnBoardingFragment.OnBoardingFragment">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_foreground"
-        android:scaleType="fitCenter"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/ic_launcher_background"
-        android:layout_marginBottom="8dp"/>
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_launcher_foreground" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/montserrat"
         android:text="Pin and prioritize your tasks\ndirectly in your notification bar!"
         android:textAlignment="center"
-        android:textSize="16sp"
-        android:fontFamily="@font/montserrat"
-        android:layout_marginBottom="20dp"/>
+        android:textSize="16sp" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/signInButton"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/clickable_min_size"
         android:clickable="true"
-        app:cardCornerRadius="4dp">
-        <TextView
-            android:layout_width="wrap_content"
+        app:cardCornerRadius="32dp"
+        app:strokeColor="@color/md_theme_surfaceVariant">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Get Started"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_marginHorizontal="16dp"
-            android:fontFamily="@font/montserrat_semibold"
-            android:layout_gravity="center"/>
+            android:layout_marginVertical="8dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/google_icon_48"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="Sign In with Google"
+                android:textSize="16sp"
+                android:textColor="@color/md_theme_primary"/>
+        </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
