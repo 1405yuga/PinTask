@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import com.example.pintask.R
 
 
-class MenuFragment : Fragment() {
+class DisplayTaskFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_menu, container, false)
+        return inflater.inflate(R.layout.fragment_display_task, container, false)
     }
 
 }

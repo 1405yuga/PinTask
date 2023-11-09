@@ -11,8 +11,9 @@
         android:label="fragment_on_boarding"
         tools:layout="@layout/fragment_on_boarding" />
     <fragment
-        android:id="@+id/menuFragment"
-        android:name="com.example.pintask.MainFragments.MenuFragment"
-        android:label="fragment_menu"
-        tools:layout="@layout/fragment_menu" />
+        android:id="@+id/displayTaskFragment"
+        android:name="com.example.pintask.MainFragments.DisplayTaskFragment"
+        android:label="fragment_display_task"
+        tools:layout="@layout/fragment_display_task" />
+
 </navigation>

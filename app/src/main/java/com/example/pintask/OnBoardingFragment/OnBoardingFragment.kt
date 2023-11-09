@@ -4,12 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.pintask.R
 import com.example.pintask.databinding.FragmentOnBoardingBinding
@@ -25,16 +25,21 @@ import com.google.firebase.auth.GoogleAuthProvider
 private val TAG = "OnBoardingFragment tag"
 
 class OnBoardingFragment : Fragment() {
-    
+
     private lateinit var binding: FragmentOnBoardingBinding
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private var firebaseAuth = FirebaseAuth.getInstance()
+
+    override fun onStart() {
+        super.onStart()
+        if (GoogleSignIn.getLastSignedInAccount(requireContext()) != null) nextFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOnBoardingBinding.inflate(inflater,container,false)
+        binding = FragmentOnBoardingBinding.inflate(inflater, container, false)
 
         // Configure Google Sign In options
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -46,12 +51,12 @@ class OnBoardingFragment : Fragment() {
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         firebaseAuth = FirebaseAuth.getInstance()
-        
+
         binding.signInButton.setOnClickListener {
             //  signin Google account
             signInGoogle()
         }
-        
+
         return binding.root
     }
 
@@ -95,10 +100,10 @@ class OnBoardingFragment : Fragment() {
         getResult.launch(signInIntent)
     }
 
-    private fun nextFragment(){
+    private fun nextFragment() {
         findNavController().apply {
-            navigate(R.id.menuFragment)
-            popBackStack(R.id.onBoardingFragment,true)
+            navigate(R.id.displayTaskFragment)
+            popBackStack(R.id.onBoardingFragment, true)
         }
     }
 }
