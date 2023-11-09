@@ -5,7 +5,8 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainFragments.DisplayTaskFragment">
+    tools:context=".MainFragments.DisplayTaskFragment"
+    tools:openDrawer="start">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -122,6 +123,9 @@
         android:fitsSystemWindows="true"
         app:dividerInsetEnd="8dp"
         app:dividerInsetStart="8dp"
-        app:drawerLayoutCornerSize="0dp" />
+        app:drawerLayoutCornerSize="0dp"
+        app:menu="@menu/navigation_drawer_menus"
+        app:itemIconTint="@color/md_theme_onSurfaceVariant"
+        android:backgroundTint="@color/navigation_bg"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

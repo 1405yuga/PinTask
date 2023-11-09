@@ -6,16 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.pintask.R
+import com.example.pintask.databinding.FragmentDisplayTaskBinding
 
 
 class DisplayTaskFragment : Fragment() {
 
+    private lateinit var binding: FragmentDisplayTaskBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_display_task, container, false)
+        binding = FragmentDisplayTaskBinding.inflate(inflater,container,false)
+        binding.apply {
+            navigationMenu.setOnClickListener {
+                binding.drawerLayout.open()
+            }
+        }
+
+        return binding.root
     }
 
 }

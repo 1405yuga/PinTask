@@ -30,4 +30,5 @@
     <color name="md_theme_surfaceTint">#7CDA9C</color>
     <color name="md_theme_outlineVariant">#414942</color>
     <color name="md_theme_scrim">#000000</color>
+    <color name="navigation_bg">#333333</color>
 </resources>
