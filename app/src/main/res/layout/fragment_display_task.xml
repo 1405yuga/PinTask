@@ -126,6 +126,7 @@
         app:drawerLayoutCornerSize="0dp"
         app:menu="@menu/navigation_drawer_menus"
         app:itemIconTint="@color/md_theme_onSurfaceVariant"
+        app:itemTextColor="@color/md_theme_onSurfaceVariant"
         android:backgroundTint="@color/navigation_bg"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
