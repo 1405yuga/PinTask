@@ -3,4 +3,7 @@
     <dimen name="clickable_min_size">48dp</dimen>
     <dimen name="fragment_margin_horizontal">16dp</dimen>
     <dimen name="fragment_margin_vertical">12dp</dimen>
+    <dimen name="floating_button_elevation">4dp</dimen>
+    <dimen name="floating_button_radius">16dp</dimen>
+    <dimen name="floating_button_padding">16dp</dimen>
 </resources>

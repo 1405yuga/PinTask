@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".MainFragments.AddTaskFragment">
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,25 +25,34 @@
             android:foreground="?selectableItemBackground"
             android:padding="24dp"
             android:src="@drawable/baseline_arrow_back_24" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Add Task"
+            android:layout_gravity="center"
+            android:fontFamily="@font/montserrat_medium"
+            android:textSize="16sp"
+            android:textColor="@color/md_theme_onSurfaceVariant"/>
 
         <ImageView
             android:id="@+id/pinButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
             android:clickable="true"
             android:contentDescription="pin button"
             android:focusable="true"
             android:foreground="?selectableItemBackground"
             android:padding="24dp"
             android:src="@drawable/baseline_push_pin_24"/>
-    </FrameLayout>
+    </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
         android:layout_weight="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,8 +71,8 @@
                 android:background="@null"
                 android:fontFamily="@font/montserrat_semibold"
                 android:hint="Title"
-                android:textSize="20sp"
-                android:minHeight="@dimen/clickable_min_size"/>
+                android:minHeight="@dimen/clickable_min_size"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/taskEditText"
@@ -72,11 +81,29 @@
                 android:background="@null"
                 android:fontFamily="@font/montserrat"
                 android:hint="Task"
-                android:textSize="16sp"
-                android:minHeight="@dimen/clickable_min_size"/>
+                android:minHeight="@dimen/clickable_min_size"
+                android:textSize="16sp" />
         </LinearLayout>
 
 
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/saveTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="Save button"
+        android:focusable="true"
+        android:foreground="?selectableItemBackground"
+        android:padding="@dimen/floating_button_padding"
+        android:src="@drawable/baseline_add_task_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/floating_button_bg"
+        android:layout_marginHorizontal="@dimen/fragment_margin_horizontal"
+        android:layout_marginVertical="@dimen/fragment_margin_vertical"
+        android:elevation="@dimen/floating_button_elevation"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
