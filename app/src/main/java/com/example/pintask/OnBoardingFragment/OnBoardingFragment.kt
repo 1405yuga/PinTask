@@ -32,7 +32,7 @@ class OnBoardingFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        if (GoogleSignIn.getLastSignedInAccount(requireContext()) != null) nextFragment()
+        if (GoogleSignIn.getLastSignedInAccount(requireActivity()) != null) nextFragment()
     }
 
     override fun onCreateView(
@@ -102,8 +102,8 @@ class OnBoardingFragment : Fragment() {
 
     private fun nextFragment() {
         findNavController().apply {
-            navigate(R.id.displayTaskFragment)
             popBackStack(R.id.onBoardingFragment, true)
+            navigate(R.id.displayTaskFragment)
         }
     }
 }
