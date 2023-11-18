@@ -15,5 +15,10 @@
         android:name="com.example.pintask.MainFragments.DisplayTaskFragment"
         android:label="fragment_display_task"
         tools:layout="@layout/fragment_display_task" />
+    <fragment
+        android:id="@+id/addTaskFragment"
+        android:name="com.example.pintask.MainFragments.AddTaskFragment"
+        android:label="fragment_add_task"
+        tools:layout="@layout/fragment_add_task" />
 
 </navigation>

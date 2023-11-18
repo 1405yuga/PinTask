@@ -45,7 +45,7 @@ class DisplayTaskFragment : Fragment() {
     ): View? {
         binding = FragmentDisplayTaskBinding.inflate(inflater, container, false)
         binding.apply {
-            accountImage.load(firebaseAuth.currentUser?.photoUrl){
+            accountImage.load(firebaseAuth.currentUser?.photoUrl) {
                 transformations(CircleCropTransformation())
                 placeholder(R.drawable.baseline_account_box_24)
                 error(R.drawable.baseline_account_box_24)
@@ -62,6 +62,10 @@ class DisplayTaskFragment : Fragment() {
 
                     else -> false
                 }
+            }
+
+            addTaskButton.setOnClickListener {
+                navigateToFragment(R.id.addTaskFragment)
             }
         }
 
@@ -94,7 +98,7 @@ class DisplayTaskFragment : Fragment() {
 
     private fun navigateToFragment(fragmentId: Int) {
         findNavController().apply {
-            popBackStack(R.id.displayTaskFragment, true)
+            popBackStack(R.id.displayTaskFragment, fragmentId == R.id.onBoardingFragment)
             navigate(fragmentId)
         }
     }
