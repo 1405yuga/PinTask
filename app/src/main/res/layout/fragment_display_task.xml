@@ -5,8 +5,7 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainFragments.DisplayTaskFragment"
-    tools:openDrawer="start">
+    tools:context=".MainFragments.DisplayTaskFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -68,7 +67,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -77,14 +77,16 @@
             android:layout_marginHorizontal="@dimen/fragment_margin_horizontal"
             android:layout_marginVertical="@dimen/fragment_margin_vertical"
             android:layout_weight="1"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/topAppBar"
-            app:spanCount="2" />
+            app:spanCount="2"
+            tools:listitem="@layout/card_task_item"
+            tools:itemCount="50"/>
 
         <ImageView
             android:id="@+id/addTaskButton"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".MainFragments.AddTaskFragment">
 
@@ -25,15 +25,16 @@
             android:foreground="?selectableItemBackground"
             android:padding="24dp"
             android:src="@drawable/baseline_arrow_back_24" />
+
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Add Task"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:fontFamily="@font/montserrat_medium"
-            android:textSize="16sp"
-            android:textColor="@color/md_theme_onSurfaceVariant"/>
+            android:text="Add Task"
+            android:textColor="@color/md_theme_onSurfaceVariant"
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/pinButton"
@@ -44,7 +45,7 @@
             android:focusable="true"
             android:foreground="?selectableItemBackground"
             android:padding="24dp"
-            android:src="@drawable/baseline_push_pin_24"/>
+            android:src="@drawable/baseline_push_pin_24" />
     </LinearLayout>
 
     <ScrollView
@@ -92,18 +93,18 @@
         android:id="@+id/saveTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/fragment_margin_horizontal"
+        android:layout_marginVertical="@dimen/fragment_margin_vertical"
+        android:background="@drawable/floating_button_bg"
         android:clickable="true"
         android:contentDescription="Save button"
+        android:elevation="@dimen/floating_button_elevation"
         android:focusable="true"
         android:foreground="?selectableItemBackground"
         android:padding="@dimen/floating_button_padding"
         android:src="@drawable/baseline_add_task_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/floating_button_bg"
-        android:layout_marginHorizontal="@dimen/fragment_margin_horizontal"
-        android:layout_marginVertical="@dimen/fragment_margin_vertical"
-        android:elevation="@dimen/floating_button_elevation"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
