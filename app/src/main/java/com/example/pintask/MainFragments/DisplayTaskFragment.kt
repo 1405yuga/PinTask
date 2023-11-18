@@ -9,6 +9,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.pintask.R
 import com.example.pintask.databinding.FragmentDisplayTaskBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -43,6 +45,11 @@ class DisplayTaskFragment : Fragment() {
     ): View? {
         binding = FragmentDisplayTaskBinding.inflate(inflater, container, false)
         binding.apply {
+            accountImage.load(firebaseAuth.currentUser?.photoUrl){
+                transformations(CircleCropTransformation())
+                placeholder(R.drawable.baseline_account_box_24)
+                error(R.drawable.baseline_account_box_24)
+            }
             navigationMenu.setOnClickListener {
                 binding.drawerLayout.open()
             }
