@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/navigation_bg"
+    app:cardCornerRadius="28dp"
+    app:cardElevation="6dp"
+    app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginBottom="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/signout"
+            app:tint="@color/md_theme_secondary" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:text="@string/sign_out"
+            android:textAlignment="center"
+            android:textColor="@color/md_theme_onSurface" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:fontFamily="@font/montserrat"
+            android:text="You are about to sign out. Do you want to continue?"
+            android:textAlignment="center"
+            android:textColor="@color/md_theme_onSurface" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/noButton"
+                android:layout_width="@dimen/clickable_min_size"
+                android:layout_height="@dimen/clickable_min_size"
+                android:layout_margin="8dp"
+                android:clickable="true"
+                android:fontFamily="@font/montserrat_semibold"
+                android:gravity="center"
+                android:text="No"
+                android:textColor="@color/md_theme_primary"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/yesButton"
+                android:layout_width="@dimen/clickable_min_size"
+                android:layout_height="@dimen/clickable_min_size"
+                android:layout_margin="8dp"
+                android:clickable="true"
+                android:fontFamily="@font/montserrat_semibold"
+                android:gravity="center"
+                android:text="Yes"
+                android:textColor="@color/md_theme_primary"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -5,7 +5,7 @@
             <item
                 android:id="@+id/signOut"
                 android:icon="@drawable/signout"
-                android:title="Sign Out" />
+                android:title="@string/sign_out" />
         </menu>
     </item>
     <item android:title="@string/settings">
