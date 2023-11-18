@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/navigation_bg"
+    app:cardBackgroundColor="@color/md_theme_primaryContainer"
     app:cardCornerRadius="28dp"
     app:cardElevation="6dp"
     app:strokeWidth="0dp">
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:fontFamily="@font/montserrat"
-            android:text="You are about to sign out. Do you want to continue?"
+            android:text="You are about to sign out.\nDo you want to continue?"
             android:textAlignment="center"
             android:textColor="@color/md_theme_onSurface" />
 
@@ -51,7 +51,6 @@
                 android:id="@+id/noButton"
                 android:layout_width="@dimen/clickable_min_size"
                 android:layout_height="@dimen/clickable_min_size"
-                android:layout_margin="8dp"
                 android:clickable="true"
                 android:fontFamily="@font/montserrat_semibold"
                 android:gravity="center"
@@ -63,7 +62,6 @@
                 android:id="@+id/yesButton"
                 android:layout_width="@dimen/clickable_min_size"
                 android:layout_height="@dimen/clickable_min_size"
-                android:layout_margin="8dp"
                 android:clickable="true"
                 android:fontFamily="@font/montserrat_semibold"
                 android:gravity="center"

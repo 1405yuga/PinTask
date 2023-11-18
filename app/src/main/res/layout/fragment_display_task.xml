@@ -127,6 +127,6 @@
         app:menu="@menu/navigation_drawer_menus"
         app:itemIconTint="@color/md_theme_onSurfaceVariant"
         app:itemTextColor="@color/md_theme_onSurfaceVariant"
-        android:backgroundTint="@color/navigation_bg"/>
+        android:backgroundTint="@color/md_theme_primaryContainer"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

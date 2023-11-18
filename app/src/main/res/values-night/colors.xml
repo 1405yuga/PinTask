@@ -2,7 +2,7 @@
 <resources>
     <color name="md_theme_primary">#7CDA9C</color>
     <color name="md_theme_onPrimary">#00391D</color>
-    <color name="md_theme_primaryContainer">#00522C</color>
+    <color name="md_theme_primaryContainer">#333333</color>
     <color name="md_theme_onPrimaryContainer">#98F7B6</color>
     <color name="md_theme_secondary">#B6CCB9</color>
     <color name="md_theme_onSecondary">#223527</color>
@@ -30,5 +30,4 @@
     <color name="md_theme_surfaceTint">#7CDA9C</color>
     <color name="md_theme_outlineVariant">#414942</color>
     <color name="md_theme_scrim">#000000</color>
-    <color name="navigation_bg">#333333</color>
 </resources>
