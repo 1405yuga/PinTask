@@ -16,6 +16,7 @@ import coil.load
 import com.example.pintask.R
 import com.example.pintask.constants.AppConstants
 import com.example.pintask.databinding.FragmentAddTaskBinding
+import com.example.pintask.model.TaskModel
 import com.example.pintask.model.TaskViewModel
 
 private val TAG = "AddTaskFragment tag"
@@ -24,6 +25,7 @@ class AddTaskFragment : Fragment() {
 
     private lateinit var binding: FragmentAddTaskBinding
     private val viewModel : TaskViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,22 +49,25 @@ class AddTaskFragment : Fragment() {
             binding.pinButton.setImageDrawable(ContextCompat.getDrawable(requireContext(),imageValue))
         })
 
-
         binding.apply {
 
             pinButton.setOnClickListener {
                 viewModel.setPinnedStatus(!viewModel.isPinned.value!!)
             }
             titleEditText.addTextChangedListener {title ->
-                viewModel.setTaskTitle(title.toString())
+               if(!title.isNullOrEmpty()) viewModel.setTaskTitle(title.toString())
+                else viewModel.setTaskTitle(AppConstants.DEFAULT_TASK_TITLE)
             }
 
             taskEditText.addTextChangedListener { task->
-                viewModel.setTask(task.toString())
+                if(!task.isNullOrEmpty()) viewModel.setTask(task.toString())
+                else viewModel.setTask(AppConstants.DEFAULT_TASK_DESC)
             }
 
             saveTask.setOnClickListener {
                 // TODO: add task
+                val newTask = TaskModel(viewModel.title.value,viewModel.task.value,viewModel.isPinned.value)
+                Log.d(TAG,"newTask : $newTask")
             }
         }
     }

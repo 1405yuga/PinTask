@@ -3,12 +3,13 @@ package com.example.pintask.model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.pintask.constants.AppConstants
 
 class TaskViewModel : ViewModel() {
 
-    private var _title = MutableLiveData("Untitled task")
-    private var _task = MutableLiveData<String?>()
-    private var _isPinned = MutableLiveData(false)
+    private var _title = MutableLiveData(AppConstants.DEFAULT_TASK_TITLE)
+    private var _task = MutableLiveData(AppConstants.DEFAULT_TASK_DESC)
+    private var _isPinned = MutableLiveData(AppConstants.DEFAULT_PINNED_VALUE)
 
     val title: LiveData<String> = _title
     val task: LiveData<String?> = _task
