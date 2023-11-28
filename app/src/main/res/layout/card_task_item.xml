@@ -36,7 +36,7 @@
                 android:clickable="true"
                 android:contentDescription="pin button"
                 android:focusable="true"
-                android:src="@drawable/baseline_push_pin_24" />
+                android:src="@drawable/pushpin_selected" />
         </LinearLayout>
 
         <LinearLayout

@@ -43,9 +43,9 @@
             android:clickable="true"
             android:contentDescription="pin button"
             android:focusable="true"
-            android:foreground="?selectableItemBackground"
             android:padding="24dp"
-            android:src="@drawable/baseline_push_pin_24" />
+            android:src="@drawable/pushpin_selected"
+            android:scaleType="fitCenter"/>
     </LinearLayout>
 
     <ScrollView
