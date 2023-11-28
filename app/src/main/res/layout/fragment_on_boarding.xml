@@ -8,7 +8,7 @@
     android:layout_marginVertical="@dimen/fragment_margin_vertical"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".OnBoardingFragment.OnBoardingFragment">
+    tools:context=".onboardingfragment.OnBoardingFragment">
 
     <ImageView
         android:layout_width="wrap_content"

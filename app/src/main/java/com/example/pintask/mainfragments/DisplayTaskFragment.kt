@@ -1,4 +1,4 @@
-package com.example.pintask.MainFragments
+package com.example.pintask.mainfragments
 
 import android.os.Bundle
 import android.util.Log

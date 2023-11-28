@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/onBoardingFragment"
-        android:name="com.example.pintask.OnBoardingFragment.OnBoardingFragment"
+        android:name="com.example.pintask.onboardingfragment.OnBoardingFragment"
         android:label="fragment_on_boarding"
         tools:layout="@layout/fragment_on_boarding" />
     <fragment
         android:id="@+id/displayTaskFragment"
-        android:name="com.example.pintask.MainFragments.DisplayTaskFragment"
+        android:name="com.example.pintask.mainfragments.DisplayTaskFragment"
         android:label="fragment_display_task"
         tools:layout="@layout/fragment_display_task" />
     <fragment
         android:id="@+id/addTaskFragment"
-        android:name="com.example.pintask.MainFragments.AddTaskFragment"
+        android:name="com.example.pintask.mainfragments.AddTaskFragment"
         android:label="fragment_add_task"
         tools:layout="@layout/fragment_add_task" />
 

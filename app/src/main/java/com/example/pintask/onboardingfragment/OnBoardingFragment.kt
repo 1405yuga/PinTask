@@ -1,4 +1,4 @@
-package com.example.pintask.OnBoardingFragment
+package com.example.pintask.onboardingfragment
 
 import android.app.Activity
 import android.content.Intent
