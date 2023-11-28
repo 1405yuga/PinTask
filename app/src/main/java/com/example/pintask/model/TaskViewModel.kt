@@ -14,6 +14,14 @@ class TaskViewModel : ViewModel() {
     val task: LiveData<String?> = _task
     val isPinned: LiveData<Boolean> = _isPinned
 
+    fun setTaskTitle(taskTitle : String) {
+        _title.value = taskTitle
+    }
+
+    fun setTask(task: String?) {
+        _task.value = task
+    }
+
     fun setPinnedStatus(pinnedStatus: Boolean) {
         _isPinned.value = pinnedStatus
     }
