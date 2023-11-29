@@ -1,5 +1,6 @@
 package com.example.pintask.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -10,6 +11,8 @@ import com.example.pintask.R
 import com.example.pintask.databinding.CardTaskItemBinding
 import com.example.pintask.model.TaskModel
 import com.google.firebase.firestore.DocumentSnapshot
+
+private val TAG = "TaskListAdapter tag"
 
 class TaskListAdapter :
     ListAdapter<DocumentSnapshot, TaskListAdapter.TaskViewHolder>(DiffCallBack) {
@@ -40,9 +43,11 @@ class TaskListAdapter :
             //  bind data
             binding.apply {
                 val currentTask = documentSnapshot.toObject(TaskModel::class.java)
+                Log.d(TAG ,"currentTask : $currentTask")
+
                 titleText.text = currentTask!!.taskTitle
-                taskText.text = currentTask!!.task
-                val image = if (currentTask.isPinned!!) {
+                taskText.text = currentTask.task
+                val image = if (currentTask.pinned!!) {
                     R.drawable.pushpin_selected
 
                 } else {
