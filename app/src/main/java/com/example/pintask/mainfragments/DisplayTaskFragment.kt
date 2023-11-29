@@ -61,6 +61,13 @@ class DisplayTaskFragment : Fragment() {
             .addOnFailureListener {
                 AppConstants.notifyUser(requireContext(), "Unable to get tasks")
             }
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         binding.apply {
             accountImage.load(firebaseAuth.currentUser?.photoUrl) {
                 transformations(CircleCropTransformation())
@@ -91,7 +98,6 @@ class DisplayTaskFragment : Fragment() {
             }
         }
 
-        return binding.root
     }
 
     private fun openConfirmationDialog() {
