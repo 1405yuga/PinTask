@@ -1,30 +1,31 @@
 package com.example.pintask.mainfragments
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import coil.Coil
-import coil.load
+import androidx.navigation.fragment.findNavController
 import com.example.pintask.R
 import com.example.pintask.constants.AppConstants
 import com.example.pintask.databinding.FragmentAddTaskBinding
 import com.example.pintask.model.TaskModel
 import com.example.pintask.model.TaskViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 private val TAG = "AddTaskFragment tag"
 
 class AddTaskFragment : Fragment() {
 
     private lateinit var binding: FragmentAddTaskBinding
-    private val viewModel : TaskViewModel by activityViewModels()
+    private val viewModel: TaskViewModel by activityViewModels()
+    private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
 
 
     override fun onCreateView(
@@ -32,7 +33,9 @@ class AddTaskFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentAddTaskBinding.inflate(layoutInflater,container,false)
+        binding = FragmentAddTaskBinding.inflate(layoutInflater, container, false)
+        firestore = FirebaseFirestore.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
         return binding.root
     }
 
@@ -40,13 +43,17 @@ class AddTaskFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.isPinned.observe(viewLifecycleOwner, Observer {
-            val imageValue = if(it){
+            val imageValue = if (it) {
                 R.drawable.pushpin_selected
-            }
-            else{
+            } else {
                 R.drawable.pushpin_unselected
             }
-            binding.pinButton.setImageDrawable(ContextCompat.getDrawable(requireContext(),imageValue))
+            binding.pinButton.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    imageValue
+                )
+            )
         })
 
         binding.apply {
@@ -54,20 +61,33 @@ class AddTaskFragment : Fragment() {
             pinButton.setOnClickListener {
                 viewModel.setPinnedStatus(!viewModel.isPinned.value!!)
             }
-            titleEditText.addTextChangedListener {title ->
-               if(!title.isNullOrEmpty()) viewModel.setTaskTitle(title.toString())
+            titleEditText.addTextChangedListener { title ->
+                if (!title.isNullOrEmpty()) viewModel.setTaskTitle(title.toString())
                 else viewModel.setTaskTitle(AppConstants.DEFAULT_TASK_TITLE)
             }
 
-            taskEditText.addTextChangedListener { task->
-                if(!task.isNullOrEmpty()) viewModel.setTask(task.toString())
+            taskEditText.addTextChangedListener { task ->
+                if (!task.isNullOrEmpty()) viewModel.setTask(task.toString())
                 else viewModel.setTask(AppConstants.DEFAULT_TASK_DESC)
             }
 
             saveTask.setOnClickListener {
-                // TODO: add task
-                val newTask = TaskModel(viewModel.title.value,viewModel.task.value,viewModel.isPinned.value)
-                Log.d(TAG,"newTask : $newTask")
+                //  add task
+                val newTask =
+                    TaskModel(viewModel.title.value, viewModel.task.value, viewModel.isPinned.value)
+                firestore.collection(firebaseAuth.currentUser!!.email.toString()).add(newTask)
+                    .addOnSuccessListener {
+                        AppConstants.notifyUser(requireContext(), "Task added successfully")
+
+                        //navigate
+                        findNavController().apply {
+                            popBackStack(R.id.displayTaskFragment, true)
+                            navigate(R.id.displayTaskFragment)
+                        }
+                    }
+                    .addOnFailureListener {
+                        AppConstants.notifyUser(requireContext(), "Cannot add task")
+                    }
             }
         }
     }

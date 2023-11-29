@@ -98,6 +98,7 @@ class DisplayTaskFragment : Fragment() {
 
     private fun navigateToFragment(fragmentId: Int) {
         findNavController().apply {
+            // if navigating to onboarding then remove from stack if navigating to addtask dont remove from stack
             popBackStack(R.id.displayTaskFragment, fragmentId == R.id.onBoardingFragment)
             navigate(fragmentId)
         }
