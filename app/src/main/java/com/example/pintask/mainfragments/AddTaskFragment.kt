@@ -1,7 +1,6 @@
 package com.example.pintask.mainfragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.pintask.R
 import com.example.pintask.constants.AppConstants
 import com.example.pintask.databinding.FragmentAddTaskBinding
+import com.example.pintask.firebase.FirestoreFunctions
 import com.example.pintask.model.TaskModel
 import com.example.pintask.model.TaskViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -76,19 +76,14 @@ class AddTaskFragment : Fragment() {
                 //  add task
                 val newTask =
                     TaskModel(viewModel.title.value, viewModel.task.value, viewModel.isPinned.value)
-                firestore.collection(firebaseAuth.currentUser!!.email.toString()).add(newTask)
-                    .addOnSuccessListener {
-                        AppConstants.notifyUser(requireContext(), "Task added successfully")
 
-                        //navigate
-                        findNavController().apply {
-                            popBackStack(R.id.displayTaskFragment, true)
-                            navigate(R.id.displayTaskFragment)
-                        }
+                FirestoreFunctions.addTask(newTask, requireContext()) {
+                    //navigate
+                    findNavController().apply {
+                        popBackStack(R.id.displayTaskFragment, true)
+                        navigate(R.id.displayTaskFragment)
                     }
-                    .addOnFailureListener {
-                        AppConstants.notifyUser(requireContext(), "Cannot add task")
-                    }
+                }
             }
         }
     }
