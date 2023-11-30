@@ -19,8 +19,6 @@ import com.example.pintask.model.TaskViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-private val TAG = "AddTaskFragment tag"
-
 class AddTaskFragment : Fragment() {
 
     private lateinit var binding: FragmentAddTaskBinding

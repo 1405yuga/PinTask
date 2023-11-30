@@ -62,17 +62,6 @@ class DisplayTaskFragment : Fragment() {
         binding = FragmentDisplayTaskBinding.inflate(inflater, container, false)
         taskListAdapter = TaskListAdapter()
 
-        /*
-        firebaseFirestore.collection(firebaseAuth.currentUser!!.email.toString()).get()
-            .addOnSuccessListener { querySnapShot ->
-                taskListAdapter.submitList(querySnapShot.documents)
-
-            }
-            .addOnFailureListener {
-                AppConstants.notifyUser(requireContext(), "Unable to get tasks")
-            }
-
-         */
         viewModel.taskList.observe(viewLifecycleOwner, Observer {
             taskListAdapter.submitList(it)
         })
