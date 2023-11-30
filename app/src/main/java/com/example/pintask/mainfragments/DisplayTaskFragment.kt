@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -15,14 +17,14 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.pintask.R
 import com.example.pintask.adapter.TaskListAdapter
-import com.example.pintask.constants.AppConstants
 import com.example.pintask.databinding.FragmentDisplayTaskBinding
+import com.example.pintask.firebase.FirestoreFunctions
+import com.example.pintask.model.TaskViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 private val TAG = "DisplayTaskFragment tag"
 
@@ -30,9 +32,9 @@ class DisplayTaskFragment : Fragment() {
 
     private lateinit var binding: FragmentDisplayTaskBinding
     private val firebaseAuth = FirebaseAuth.getInstance()
-    private val firebaseFirestore = FirebaseFirestore.getInstance()
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var taskListAdapter: TaskListAdapter
+    private val viewModel: TaskViewModel by activityViewModels()
 
     override fun onStart() {
         super.onStart()
@@ -44,6 +46,13 @@ class DisplayTaskFragment : Fragment() {
 
         // getting the value of gso inside the GoogleSigninClient
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+        refreshList()
+    }
+
+    private fun refreshList() {
+        FirestoreFunctions.getTask(requireContext(), updateList = {
+            viewModel.setTaskList(it)
+        })
     }
 
     override fun onCreateView(
@@ -53,6 +62,7 @@ class DisplayTaskFragment : Fragment() {
         binding = FragmentDisplayTaskBinding.inflate(inflater, container, false)
         taskListAdapter = TaskListAdapter()
 
+        /*
         firebaseFirestore.collection(firebaseAuth.currentUser!!.email.toString()).get()
             .addOnSuccessListener { querySnapShot ->
                 taskListAdapter.submitList(querySnapShot.documents)
@@ -61,6 +71,11 @@ class DisplayTaskFragment : Fragment() {
             .addOnFailureListener {
                 AppConstants.notifyUser(requireContext(), "Unable to get tasks")
             }
+
+         */
+        viewModel.taskList.observe(viewLifecycleOwner, Observer {
+            taskListAdapter.submitList(it)
+        })
 
         return binding.root
     }
