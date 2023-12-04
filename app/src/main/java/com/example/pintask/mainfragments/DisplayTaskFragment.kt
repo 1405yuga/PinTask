@@ -215,8 +215,8 @@ class DisplayTaskFragment : Fragment() {
     }
 
     private fun deleteAccountConfirmed() {
-        // TODO: delete account
-        AppConstants.notifyUser(requireContext(),"delete account todo")
+        //  delete account
+        FirestoreFunctions.deleteUser(requireContext(), ::signOutConfirmed)
     }
 
 
@@ -225,8 +225,7 @@ class DisplayTaskFragment : Fragment() {
             navigateToFragment(R.id.onBoardingFragment)
         }
             .addOnFailureListener {
-                Toast.makeText(requireContext(), "Unable to signOut!", Toast.LENGTH_SHORT)
-                    .show()
+                AppConstants.notifyUser(requireContext(),"Unable to signOut!")
                 Log.d(TAG, "signOut exception : ${it.message}")
             }
     }
