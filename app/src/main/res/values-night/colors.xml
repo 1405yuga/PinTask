@@ -13,8 +13,8 @@
     <color name="md_theme_tertiaryContainer">#214C57</color>
     <color name="md_theme_onTertiaryContainer">#BEEAF7</color>
     <color name="md_theme_error">#FFB4AB</color>
-    <color name="md_theme_errorContainer">#93000A</color>
-    <color name="md_theme_onError">#690005</color>
+    <color name="md_theme_errorContainer">#321C1E</color>
+    <color name="md_theme_onError">#220A0B</color>
     <color name="md_theme_onErrorContainer">#FFDAD6</color>
     <color name="md_theme_background">#191C19</color>
     <color name="md_theme_onBackground">#E1E3DE</color>

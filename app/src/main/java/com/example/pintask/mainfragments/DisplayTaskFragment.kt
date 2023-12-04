@@ -54,7 +54,6 @@ class DisplayTaskFragment : Fragment() {
     private lateinit var notificationBuilder: Notification.Builder
     private val channel_ID = "i.apps.notifications"
     private val description = "Test notification"
-    private var task_id = 0
 
     override fun onStart() {
         super.onStart()
@@ -166,6 +165,11 @@ class DisplayTaskFragment : Fragment() {
                         true
                     }
 
+                    R.id.deleteAccount -> {
+                        openDeleteDialog()
+                        true
+                    }
+
                     else -> false
                 }
             }
@@ -204,6 +208,15 @@ class DisplayTaskFragment : Fragment() {
         }
 
         builder.show()
+    }
+
+    private fun openDeleteDialog() {
+        val view = layoutInflater.inflate(R.layout.card_delete_account_confirmation_dialog,null)
+        val builder = MaterialAlertDialogBuilder(requireContext()).create()
+        builder.setView(view)
+
+        builder.show()
+
     }
 
     private fun navigateToFragment(fragmentId: Int) {
