@@ -53,14 +53,16 @@ object FirestoreFunctions {
         context: Context,
         documentPath: String,
         pinStatus: Boolean,
-        updatePinImage: () -> Unit
+        refreshList: () -> Unit,
+        manageNotification: ()-> Unit
     ) {
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val email = FirebaseAuth.getInstance().currentUser!!.email
 
         firebaseFirestore.collection(email.toString()).document(documentPath)
             .update("pinned", pinStatus).addOnSuccessListener {
-                updatePinImage()
+                manageNotification()
+                refreshList()
             }
             .addOnFailureListener {
                 AppConstants.notifyUser(context, "Unable to Pin")

@@ -1,5 +1,7 @@
 package com.example.pintask.adapter
 
+import android.app.NotificationManager
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -15,7 +17,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 
 private val TAG = "TaskListAdapter tag"
 
-class TaskListAdapter(private val refreshList: () -> (Unit)) :
+class TaskListAdapter(private val context: Context, private val refreshList: () -> (Unit)) :
     ListAdapter<DocumentSnapshot, TaskListAdapter.TaskViewHolder>(DiffCallBack) {
     companion object {
         private val DiffCallBack = object : DiffUtil.ItemCallback<DocumentSnapshot>() {
@@ -46,7 +48,7 @@ class TaskListAdapter(private val refreshList: () -> (Unit)) :
             return R.drawable.pushpin_unselected
         }
 
-        fun bind(documentSnapshot: DocumentSnapshot, refreshList: () -> Unit) {
+        fun bind(documentSnapshot: DocumentSnapshot, context: Context, refreshList: () -> Unit) {
             //  bind data
             binding.apply {
                 val currentTask = documentSnapshot.toObject(TaskModel::class.java)
@@ -68,8 +70,12 @@ class TaskListAdapter(private val refreshList: () -> (Unit)) :
                         binding.root.context,
                         documentSnapshot.id,
                         updatePinValue,
-                        updatePinImage = {
+                        refreshList = {
                             refreshList()
+                        }, manageNotification = {
+                            // remove from notification if un-pinned
+                            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                            notificationManager.cancel(documentSnapshot.id.toInt())
                         })
                 }
             }
@@ -88,7 +94,7 @@ class TaskListAdapter(private val refreshList: () -> (Unit)) :
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.bind(getItem(position), refreshList)
+        holder.bind(getItem(position), context, refreshList)
     }
 
 }

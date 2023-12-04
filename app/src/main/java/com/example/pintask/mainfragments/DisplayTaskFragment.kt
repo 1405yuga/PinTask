@@ -68,7 +68,7 @@ class DisplayTaskFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDisplayTaskBinding.inflate(inflater, container, false)
-        taskListAdapter = TaskListAdapter(::refreshList)
+        taskListAdapter = TaskListAdapter(requireContext(),::refreshList)
 
         notificationManager =
             requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
