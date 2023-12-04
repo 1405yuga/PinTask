@@ -91,13 +91,13 @@ class DisplayTaskFragment : Fragment() {
             for(i in it){
                 //send notification
                 val currentTask = i.toObject(TaskModel::class.java)
-                val notificationID = Random.nextInt(1, Int.MAX_VALUE)
+                val notificationID = i.id.toInt()
 
+                // TODO: check if notification already sent
                 if(currentTask!!.pinned==true) {
                     buildNotification(currentTask.taskTitle ?: AppConstants.DEFAULT_TASK_TITLE,
                         currentTask.task ?: AppConstants.DEFAULT_TASK_DESC)
                     notificationManager.notify(notificationID, notificationBuilder.build())
-                    task_id++
                 }
             }
 
