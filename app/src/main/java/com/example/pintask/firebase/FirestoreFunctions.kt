@@ -6,14 +6,18 @@ import com.example.pintask.model.TaskModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlin.random.Random
 
 object FirestoreFunctions {
 
     fun addTask(task: TaskModel, context: Context, navigateToFragment: () -> (Unit)) {
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val user = FirebaseAuth.getInstance().currentUser
+        val id = Random.nextInt(1, Int.MAX_VALUE)
 
-        firebaseFirestore.collection(user!!.email.toString()).add(task)
+        firebaseFirestore.collection(user!!.email.toString())
+            .document(id.toString())
+            .set(task)
             .addOnSuccessListener {
                 AppConstants.notifyUser(context, "Task added successfully")
                 navigateToFragment()
