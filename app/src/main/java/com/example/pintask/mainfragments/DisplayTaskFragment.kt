@@ -38,7 +38,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
-import kotlin.random.Random
 
 private val TAG = "DisplayTaskFragment tag"
 
@@ -87,15 +86,17 @@ class DisplayTaskFragment : Fragment() {
         viewModel.taskList.observe(viewLifecycleOwner, Observer {
             taskListAdapter.submitList(it)
 
-            for(i in it){
+            for (i in it) {
                 //send notification
                 val currentTask = i.toObject(TaskModel::class.java)
                 val notificationID = i.id.toInt()
 
                 // TODO: check if notification already sent
-                if(currentTask!!.pinned==true) {
-                    buildNotification(currentTask.taskTitle ?: AppConstants.DEFAULT_TASK_TITLE,
-                        currentTask.task ?: AppConstants.DEFAULT_TASK_DESC)
+                if (currentTask!!.pinned == true) {
+                    buildNotification(
+                        currentTask.taskTitle ?: AppConstants.DEFAULT_TASK_TITLE,
+                        currentTask.task ?: AppConstants.DEFAULT_TASK_DESC
+                    )
                     notificationManager.notify(notificationID, notificationBuilder.build())
                 }
             }
@@ -132,7 +133,8 @@ class DisplayTaskFragment : Fragment() {
 
         } else {
 
-            val contentView = RemoteViews(requireContext().packageName,R.layout.activity_task_detail)
+            val contentView =
+                RemoteViews(requireContext().packageName, R.layout.activity_task_detail)
 
             notificationBuilder = Notification.Builder(requireActivity())
                 .setContent(contentView)
@@ -161,12 +163,16 @@ class DisplayTaskFragment : Fragment() {
             navigationView.setNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.signOut -> {
-                        openConfirmationDialog()
+                        createDialog(
+                            R.layout.card_signout_confirmation_dialog,
+                            "Cancelled SignOut !",
+                            ::signOutConfirmed
+                        )
                         true
                     }
 
                     R.id.deleteAccount -> {
-                        openDeleteDialog()
+                        createDialog(R.layout.card_delete_account_confirmation_dialog,"Account Delete cancelled",::deleteAccountConfirmed)
                         true
                     }
 
@@ -185,38 +191,44 @@ class DisplayTaskFragment : Fragment() {
         }
 
     }
+    
 
-    private fun openConfirmationDialog() {
-        val view = layoutInflater.inflate(R.layout.card_signout_confirmation_dialog, null)
+    private fun createDialog(
+        layout: Int,
+        noButtonMessage: String,
+        yesButtonAction: () -> Unit
+    ) {
+        val view = layoutInflater.inflate(layout, null)
         val builder = MaterialAlertDialogBuilder(requireContext())
             .create()
         builder.setView(view)
         view.findViewById<TextView>(R.id.noButton).setOnClickListener {
             builder.dismiss()
-            Toast.makeText(requireContext(), "Cancelled signOut!", Toast.LENGTH_SHORT).show()
+            AppConstants.notifyUser(requireContext(), noButtonMessage)
         }
         view.findViewById<TextView>(R.id.yesButton).setOnClickListener {
-            mGoogleSignInClient.signOut().addOnSuccessListener {
-                navigateToFragment(R.id.onBoardingFragment)
-            }
-                .addOnFailureListener {
-                    Toast.makeText(requireContext(), "Unable to signOut!", Toast.LENGTH_SHORT)
-                        .show()
-                    Log.d(TAG, "signOut exception : ${it.message}")
-                }
             builder.dismiss()
+            yesButtonAction()
         }
 
         builder.show()
     }
 
-    private fun openDeleteDialog() {
-        val view = layoutInflater.inflate(R.layout.card_delete_account_confirmation_dialog,null)
-        val builder = MaterialAlertDialogBuilder(requireContext()).create()
-        builder.setView(view)
+    private fun deleteAccountConfirmed() {
+        // TODO: delete account
+        AppConstants.notifyUser(requireContext(),"delete account todo")
+    }
 
-        builder.show()
 
+    private fun signOutConfirmed() {
+        mGoogleSignInClient.signOut().addOnSuccessListener {
+            navigateToFragment(R.id.onBoardingFragment)
+        }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Unable to signOut!", Toast.LENGTH_SHORT)
+                    .show()
+                Log.d(TAG, "signOut exception : ${it.message}")
+            }
     }
 
     private fun navigateToFragment(fragmentId: Int) {
