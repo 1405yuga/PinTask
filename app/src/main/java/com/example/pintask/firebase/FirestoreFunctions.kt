@@ -13,7 +13,12 @@ private val TAG = "FirestoreFunctions tag"
 
 object FirestoreFunctions {
 
-    fun addTask(task: TaskModel, context: Context,resetTask : () -> Unit, navigateToFragment: () -> (Unit)) {
+    fun addTask(
+        task: TaskModel,
+        context: Context,
+        resetTask: () -> Unit,
+        navigateToFragment: () -> (Unit)
+    ) {
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val user = FirebaseAuth.getInstance().currentUser
         val id = Random.nextInt(1, Int.MAX_VALUE)
@@ -41,6 +46,24 @@ object FirestoreFunctions {
             }
             .addOnFailureListener {
                 AppConstants.notifyUser(context, "Unable to get tasks")
+            }
+    }
+
+    fun updatePinStatus(
+        context: Context,
+        documentPath: String,
+        pinStatus: Boolean,
+        updatePinImage: () -> Unit
+    ) {
+        val firebaseFirestore = FirebaseFirestore.getInstance()
+        val email = FirebaseAuth.getInstance().currentUser!!.email
+
+        firebaseFirestore.collection(email.toString()).document(documentPath)
+            .update("pinned", pinStatus).addOnSuccessListener {
+                updatePinImage()
+            }
+            .addOnFailureListener {
+                AppConstants.notifyUser(context, "Unable to Pin")
             }
     }
 
