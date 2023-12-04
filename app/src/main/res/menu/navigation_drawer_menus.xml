@@ -17,7 +17,7 @@
             <item
                 android:id="@+id/clearTasks"
                 android:icon="@drawable/baseline_clear_all_24"
-                android:title="Clear Tasks" />
+                android:title="@string/clear_all_tasks" />
         </menu>
     </item>
     <item android:title="About">

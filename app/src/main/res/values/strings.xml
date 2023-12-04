@@ -7,4 +7,5 @@
     <string name="exit">Exit</string>
     <string name="sign_out">Sign Out</string>
     <string name="delete_account">Delete Account</string>
+    <string name="clear_all_tasks">Clear All Tasks</string>
 </resources>

@@ -43,13 +43,38 @@ object FirestoreFunctions {
             }
     }
 
+    fun clearAllTasks(context: Context, refreshList: () -> Unit) {
+        val firebaseFirestore = FirebaseFirestore.getInstance()
+        val email = FirebaseAuth.getInstance().currentUser!!.email
+
+        if (email != null) {
+            firebaseFirestore.collection(email).get()
+                .addOnSuccessListener { taskList ->
+                    for (i in taskList) {
+                        i.reference.delete().addOnSuccessListener { refreshList() }
+                    }
+
+                }
+                .addOnFailureListener {
+                    AppConstants.notifyUser(context, "${it.message}")
+                }
+        }
+    }
+
     fun deleteUser(context: Context, skipToOnBoarding: () -> Unit) {
         val user = FirebaseAuth.getInstance().currentUser
-
-        user!!.delete()
+        val email = user!!.email
+        user.delete()
             .addOnSuccessListener {
-                // TODO: clear all task
-                skipToOnBoarding()
+                if (email != null) {
+                    FirebaseFirestore.getInstance().collection(email).get()
+                        .addOnSuccessListener { taskList ->
+                            for (i in taskList) {
+                                i.reference.delete()
+                            }
+                            skipToOnBoarding()
+                        }
+                }
                 AppConstants.notifyUser(context, "Account Deleted successfully")
             }
             .addOnFailureListener {

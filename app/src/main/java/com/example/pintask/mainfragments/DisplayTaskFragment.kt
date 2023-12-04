@@ -176,6 +176,10 @@ class DisplayTaskFragment : Fragment() {
                         true
                     }
 
+                    R.id.clearTasks -> {
+                        createDialog(R.layout.card_clear_all_tasks_confirmation_dialog,"Cancelled",::clearAllTasksConfirmed)
+                        true
+                    }
                     else -> false
                 }
             }
@@ -208,6 +212,7 @@ class DisplayTaskFragment : Fragment() {
         }
         view.findViewById<TextView>(R.id.yesButton).setOnClickListener {
             builder.dismiss()
+            binding.drawerLayout.close()
             yesButtonAction()
         }
 
@@ -219,6 +224,10 @@ class DisplayTaskFragment : Fragment() {
         FirestoreFunctions.deleteUser(requireContext(), ::signOutConfirmed)
     }
 
+    private fun clearAllTasksConfirmed() {
+        //  delete account
+        FirestoreFunctions.clearAllTasks(requireContext(), ::refreshList)
+    }
 
     private fun signOutConfirmed() {
         mGoogleSignInClient.signOut().addOnSuccessListener {
