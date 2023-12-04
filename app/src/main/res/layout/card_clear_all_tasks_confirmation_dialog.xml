@@ -20,7 +20,7 @@
             android:layout_height="24dp"
             android:layout_marginBottom="16dp"
             android:scaleType="centerInside"
-            android:src="@drawable/signout"
+            android:src="@drawable/baseline_clear_all_24"
             app:tint="@color/md_theme_secondary" />
 
         <TextView
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:fontFamily="@font/montserrat"
-            android:text="You are about to sign out.\nDo you want to continue?"
+            android:text="Once you clear all tasks, all the tasks registered will be removed and there is no going back.\nPlease be certain."
             android:textAlignment="center"
             android:textColor="@color/md_theme_onSurface" />
 
