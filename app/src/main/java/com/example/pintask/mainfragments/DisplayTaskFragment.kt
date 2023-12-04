@@ -38,6 +38,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
+import kotlin.random.Random
 
 private val TAG = "DisplayTaskFragment tag"
 
@@ -89,12 +90,13 @@ class DisplayTaskFragment : Fragment() {
 
             for(i in it){
                 //send notification
-                // TODO: change id
                 val currentTask = i.toObject(TaskModel::class.java)
+                val notificationID = Random.nextInt(1, Int.MAX_VALUE)
+
                 if(currentTask!!.pinned==true) {
                     buildNotification(currentTask.taskTitle ?: AppConstants.DEFAULT_TASK_TITLE,
                         currentTask.task ?: AppConstants.DEFAULT_TASK_DESC)
-                    notificationManager.notify(task_id, notificationBuilder.build())
+                    notificationManager.notify(notificationID, notificationBuilder.build())
                     task_id++
                 }
             }
