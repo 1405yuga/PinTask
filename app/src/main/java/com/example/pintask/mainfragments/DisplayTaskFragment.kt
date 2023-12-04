@@ -16,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RemoteViews
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -85,22 +84,27 @@ class DisplayTaskFragment : Fragment() {
 
         viewModel.taskList.observe(viewLifecycleOwner, Observer {
             taskListAdapter.submitList(it)
+            if (it.isEmpty()) {
+                binding.recyclerView.visibility = View.GONE
+                binding.emptyListText.visibility = View.VISIBLE
+            } else {
+                binding.recyclerView.visibility = View.VISIBLE
+                binding.emptyListText.visibility = View.GONE
+                for (i in it) {
+                    //send notification
+                    val currentTask = i.toObject(TaskModel::class.java)
+                    val notificationID = i.id.toInt()
 
-            for (i in it) {
-                //send notification
-                val currentTask = i.toObject(TaskModel::class.java)
-                val notificationID = i.id.toInt()
-
-                // TODO: check if notification already sent
-                if (currentTask!!.pinned == true) {
-                    buildNotification(
-                        currentTask.taskTitle ?: AppConstants.DEFAULT_TASK_TITLE,
-                        currentTask.task ?: AppConstants.DEFAULT_TASK_DESC
-                    )
-                    notificationManager.notify(notificationID, notificationBuilder.build())
+                    // TODO: check if notification already sent
+                    if (currentTask!!.pinned == true) {
+                        buildNotification(
+                            currentTask.taskTitle ?: AppConstants.DEFAULT_TASK_TITLE,
+                            currentTask.task ?: AppConstants.DEFAULT_TASK_DESC
+                        )
+                        notificationManager.notify(notificationID, notificationBuilder.build())
+                    }
                 }
             }
-
 
         })
 
@@ -172,14 +176,23 @@ class DisplayTaskFragment : Fragment() {
                     }
 
                     R.id.deleteAccount -> {
-                        createDialog(R.layout.card_delete_account_confirmation_dialog,"Account Delete cancelled",::deleteAccountConfirmed)
+                        createDialog(
+                            R.layout.card_delete_account_confirmation_dialog,
+                            "Account Delete cancelled",
+                            ::deleteAccountConfirmed
+                        )
                         true
                     }
 
                     R.id.clearTasks -> {
-                        createDialog(R.layout.card_clear_all_tasks_confirmation_dialog,"Cancelled",::clearAllTasksConfirmed)
+                        createDialog(
+                            R.layout.card_clear_all_tasks_confirmation_dialog,
+                            "Cancelled",
+                            ::clearAllTasksConfirmed
+                        )
                         true
                     }
+
                     else -> false
                 }
             }
@@ -195,7 +208,7 @@ class DisplayTaskFragment : Fragment() {
         }
 
     }
-    
+
 
     private fun createDialog(
         layout: Int,
@@ -234,7 +247,7 @@ class DisplayTaskFragment : Fragment() {
             navigateToFragment(R.id.onBoardingFragment)
         }
             .addOnFailureListener {
-                AppConstants.notifyUser(requireContext(),"Unable to signOut!")
+                AppConstants.notifyUser(requireContext(), "Unable to signOut!")
                 Log.d(TAG, "signOut exception : ${it.message}")
             }
     }
