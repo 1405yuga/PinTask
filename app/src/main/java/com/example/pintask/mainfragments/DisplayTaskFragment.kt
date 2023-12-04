@@ -66,12 +66,6 @@ class DisplayTaskFragment : Fragment() {
         refreshList()
     }
 
-    private fun refreshList() {
-        FirestoreFunctions.getTask(requireContext(), updateList = {
-            viewModel.setTaskList(it)
-        })
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -84,10 +78,8 @@ class DisplayTaskFragment : Fragment() {
 
         viewModel.taskList.observe(viewLifecycleOwner, Observer {
             taskListAdapter.submitList(it)
-            if (it.isEmpty()) {
-                binding.recyclerView.visibility = View.GONE
-                binding.emptyListText.visibility = View.VISIBLE
-            } else {
+
+            if (it.isNotEmpty()) {
                 binding.recyclerView.visibility = View.VISIBLE
                 binding.emptyListText.visibility = View.GONE
                 for (i in it) {
@@ -95,7 +87,6 @@ class DisplayTaskFragment : Fragment() {
                     val currentTask = i.toObject(TaskModel::class.java)
                     val notificationID = i.id.toInt()
 
-                    // TODO: check if notification already sent
                     if (currentTask!!.pinned == true) {
                         buildNotification(
                             currentTask.taskTitle ?: AppConstants.DEFAULT_TASK_TITLE,
@@ -104,6 +95,9 @@ class DisplayTaskFragment : Fragment() {
                         notificationManager.notify(notificationID, notificationBuilder.build())
                     }
                 }
+            } else {
+                binding.recyclerView.visibility = View.GONE
+                binding.emptyListText.visibility = View.VISIBLE
             }
 
         })
@@ -111,46 +105,6 @@ class DisplayTaskFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("RemoteViewLayout")
-    private fun buildNotification(taskTitle: String, task: String) {
-        val intent = Intent(requireActivity(), TaskDetailActivity::class.java)
-
-        //immutable since no changes after clicking notification
-        val pendingIntent =
-            PendingIntent.getActivity(requireActivity(), 0, intent, PendingIntent.FLAG_MUTABLE)
-
-        //api>=26 requires notification channel
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationChannel =
-                NotificationChannel(channel_ID, description, NotificationManager.IMPORTANCE_HIGH)
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.GREEN
-            notificationManager.createNotificationChannel(notificationChannel)
-
-            notificationBuilder = Notification.Builder(requireActivity(), channel_ID)
-                .setSmallIcon(R.drawable.pushpin_selected)
-                .setContentTitle(taskTitle)
-                .setContentText(task)
-                .setContentIntent(pendingIntent)
-                .setOngoing(true) // to keep notification in notification bar
-                .setAutoCancel(true)
-
-        } else {
-
-            val contentView =
-                RemoteViews(requireContext().packageName, R.layout.activity_task_detail)
-
-            notificationBuilder = Notification.Builder(requireActivity())
-                .setContent(contentView)
-                .setSmallIcon(R.drawable.pushpin_selected)
-                .setContentIntent(pendingIntent)
-                .setOngoing(true) // to keep notification in notification bar
-                .setAutoCancel(true)
-
-        }
-
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -209,6 +163,54 @@ class DisplayTaskFragment : Fragment() {
 
     }
 
+
+    @SuppressLint("RemoteViewLayout")
+    private fun buildNotification(taskTitle: String, task: String) {
+        val intent = Intent(requireActivity(), TaskDetailActivity::class.java)
+
+        //immutable since no changes after clicking notification
+        val pendingIntent =
+            PendingIntent.getActivity(requireActivity(), 0, intent, PendingIntent.FLAG_MUTABLE)
+
+        //api>=26 requires notification channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationChannel =
+                NotificationChannel(channel_ID, description, NotificationManager.IMPORTANCE_HIGH)
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.GREEN
+            notificationManager.createNotificationChannel(notificationChannel)
+
+            notificationBuilder = Notification.Builder(requireActivity(), channel_ID)
+                .setSmallIcon(R.drawable.pushpin_selected)
+                .setContentTitle(taskTitle)
+                .setContentText(task)
+                .setContentIntent(pendingIntent)
+                .setOngoing(true) // to keep notification in notification bar
+                .setAutoCancel(true)
+                .setOnlyAlertOnce(true)
+
+        } else {
+
+            val contentView =
+                RemoteViews(requireContext().packageName, R.layout.activity_task_detail)
+
+            notificationBuilder = Notification.Builder(requireActivity())
+                .setContent(contentView)
+                .setSmallIcon(R.drawable.pushpin_selected)
+                .setContentIntent(pendingIntent)
+                .setOngoing(true) // to keep notification in notification bar
+                .setAutoCancel(true)
+
+        }
+
+
+    }
+
+    private fun refreshList() {
+        FirestoreFunctions.getTask(requireContext(), updateList = {
+            viewModel.setTaskList(it)
+        })
+    }
 
     private fun createDialog(
         layout: Int,
