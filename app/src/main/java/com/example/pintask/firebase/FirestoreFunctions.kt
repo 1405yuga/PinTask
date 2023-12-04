@@ -13,7 +13,7 @@ private val TAG = "FirestoreFunctions tag"
 
 object FirestoreFunctions {
 
-    fun addTask(task: TaskModel, context: Context, navigateToFragment: () -> (Unit)) {
+    fun addTask(task: TaskModel, context: Context,resetTask : () -> Unit, navigateToFragment: () -> (Unit)) {
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val user = FirebaseAuth.getInstance().currentUser
         val id = Random.nextInt(1, Int.MAX_VALUE)
@@ -23,6 +23,7 @@ object FirestoreFunctions {
             .set(task)
             .addOnSuccessListener {
                 AppConstants.notifyUser(context, "Task added successfully")
+                resetTask()
                 navigateToFragment()
             }
             .addOnFailureListener {

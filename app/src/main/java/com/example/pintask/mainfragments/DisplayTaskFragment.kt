@@ -163,8 +163,6 @@ class DisplayTaskFragment : Fragment() {
 
     }
 
-
-    @SuppressLint("RemoteViewLayout")
     private fun buildNotification(taskTitle: String, task: String) {
         val intent = Intent(requireActivity(), TaskDetailActivity::class.java)
 
@@ -173,36 +171,20 @@ class DisplayTaskFragment : Fragment() {
             PendingIntent.getActivity(requireActivity(), 0, intent, PendingIntent.FLAG_MUTABLE)
 
         //api>=26 requires notification channel
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationChannel =
-                NotificationChannel(channel_ID, description, NotificationManager.IMPORTANCE_HIGH)
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.GREEN
-            notificationManager.createNotificationChannel(notificationChannel)
+        notificationChannel =
+            NotificationChannel(channel_ID, description, NotificationManager.IMPORTANCE_HIGH)
+        notificationChannel.enableLights(true)
+        notificationChannel.lightColor = Color.GREEN
+        notificationManager.createNotificationChannel(notificationChannel)
 
-            notificationBuilder = Notification.Builder(requireActivity(), channel_ID)
-                .setSmallIcon(R.drawable.pushpin_selected)
-                .setContentTitle(taskTitle)
-                .setContentText(task)
-                .setContentIntent(pendingIntent)
-                .setOngoing(true) // to keep notification in notification bar
-                .setAutoCancel(true)
-                .setOnlyAlertOnce(true)
-
-        } else {
-
-            val contentView =
-                RemoteViews(requireContext().packageName, R.layout.activity_task_detail)
-
-            notificationBuilder = Notification.Builder(requireActivity())
-                .setContent(contentView)
-                .setSmallIcon(R.drawable.pushpin_selected)
-                .setContentIntent(pendingIntent)
-                .setOngoing(true) // to keep notification in notification bar
-                .setAutoCancel(true)
-
-        }
-
+        notificationBuilder = Notification.Builder(requireActivity(), channel_ID)
+            .setSmallIcon(R.drawable.pushpin_selected)
+            .setContentTitle(taskTitle)
+            .setContentText(task)
+            .setContentIntent(pendingIntent)
+            .setOngoing(true) // to keep notification in notification bar
+            .setAutoCancel(true)
+            .setOnlyAlertOnce(true)
 
     }
 

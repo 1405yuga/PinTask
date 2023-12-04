@@ -75,7 +75,11 @@ class AddTaskFragment : Fragment() {
                 val newTask =
                     TaskModel(viewModel.title.value, viewModel.task.value, viewModel.isPinned.value)
 
-                FirestoreFunctions.addTask(newTask, requireContext()) {
+                FirestoreFunctions.addTask(newTask, requireContext(), resetTask = {
+                    viewModel.setTaskTitle(AppConstants.DEFAULT_TASK_TITLE)
+                    viewModel.setTask(AppConstants.DEFAULT_TASK_DESC)
+                    viewModel.setPinnedStatus(AppConstants.DEFAULT_PINNED_VALUE)
+                }) {
                     //navigate
                     findNavController().apply {
                         popBackStack(R.id.displayTaskFragment, true)
