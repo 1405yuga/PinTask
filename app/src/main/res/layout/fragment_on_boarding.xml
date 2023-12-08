@@ -14,9 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/ic_launcher_background"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_launcher_foreground" />
+        android:src="@mipmap/ic_launcher_round" />
 
     <TextView
         android:layout_width="match_parent"

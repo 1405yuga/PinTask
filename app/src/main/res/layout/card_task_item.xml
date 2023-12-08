@@ -3,9 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:backgroundTint="@color/md_theme_primaryContainer"
     android:clickable="true"
     android:focusable="true"
-    app:cardCornerRadius="4dp">
+    app:cardCornerRadius="4dp"
+    app:strokeWidth="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,29 +36,37 @@
                 android:id="@+id/pin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:clickable="true"
                 android:contentDescription="pin button"
                 android:focusable="true"
-                android:src="@drawable/pushpin_selected" />
+                android:src="@drawable/pushpin_unselected" />
+
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/taskText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:fontFamily="@font/montserrat"
+            android:text="Task"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleText" />
 
-            <TextView
-                android:id="@+id/taskText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat"
-                android:text="Task"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/titleText" />
+        <ImageView
+            android:id="@+id/deleteTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:clickable="true"
+            android:contentDescription="delete task"
+            android:minWidth="@dimen/clickable_min_size"
+            android:minHeight="@dimen/clickable_min_size"
+            android:scaleType="centerInside"
+            android:src="@drawable/baseline_delete_outline_24"
+            app:tint="@color/md_theme_error" />
 
-        </LinearLayout>
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
