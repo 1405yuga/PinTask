@@ -47,6 +47,11 @@ class TaskListAdapter(private val context: Context, private val refreshList: () 
             return R.drawable.pushpin_unselected
         }
 
+        private fun removeFromNotification(documentSnapshot: DocumentSnapshot,context: Context){
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.cancel(documentSnapshot.id.toInt())
+        }
+
         fun bind(documentSnapshot: DocumentSnapshot, context: Context, refreshList: () -> Unit) {
             //  bind data
             binding.apply {
@@ -73,15 +78,18 @@ class TaskListAdapter(private val context: Context, private val refreshList: () 
                             refreshList()
                         }, manageNotification = {
                             // remove from notification if un-pinned
-                            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                            notificationManager.cancel(documentSnapshot.id.toInt())
+                            removeFromNotification(documentSnapshot, context)
                         })
                 }
 
                 deleteTask.setOnClickListener {
-                    FirestoreFunctions.deleteTask(context,documentSnapshot.id, refreshList = {refreshList()})
+                    FirestoreFunctions.deleteTask(context,documentSnapshot.id, refreshList = {refreshList()},
+                        manageNotification = {
+                            removeFromNotification(documentSnapshot, context)
+                        })
                 }
             }
+
         }
     }
 
