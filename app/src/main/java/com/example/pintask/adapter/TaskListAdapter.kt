@@ -77,6 +77,10 @@ class TaskListAdapter(private val context: Context, private val refreshList: () 
                             notificationManager.cancel(documentSnapshot.id.toInt())
                         })
                 }
+
+                deleteTask.setOnClickListener {
+                    FirestoreFunctions.deleteTask(context,documentSnapshot.id, refreshList = {refreshList()})
+                }
             }
         }
     }

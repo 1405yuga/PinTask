@@ -109,4 +109,15 @@ object FirestoreFunctions {
             }
 
     }
+
+    fun deleteTask(context: Context,id : String,refreshList: () -> Unit){
+        val firebaseFirestore = FirebaseFirestore.getInstance()
+        val email = FirebaseAuth.getInstance().currentUser!!.email
+
+        if (email != null) {
+            firebaseFirestore.collection(email).document(id).delete()
+                .addOnSuccessListener { refreshList() }
+                .addOnFailureListener { AppConstants.notifyUser(context,"${it.message}") }
+        }
+    }
 }
