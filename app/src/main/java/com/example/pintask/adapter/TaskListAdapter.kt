@@ -43,7 +43,6 @@ class TaskListAdapter(private val context: Context, private val refreshList: () 
         RecyclerView.ViewHolder(binding.root) {
 
         private fun getPinImage(pinValue: Boolean): Int {
-
             if (pinValue) return R.drawable.pushpin_selected
             return R.drawable.pushpin_unselected
         }
