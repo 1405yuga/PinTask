@@ -85,7 +85,7 @@ class DisplayTaskFragment : Fragment() {
                     val notificationID = i.id.toInt()
 
                     if (currentTask!!.pinned == true) {
-                        buildNotification(
+                        buildNotification(i.id,
                             currentTask.taskTitle ?: AppConstants.DEFAULT_TASK_TITLE,
                             currentTask.task ?: AppConstants.DEFAULT_TASK_DESC
                         )
@@ -169,12 +169,12 @@ class DisplayTaskFragment : Fragment() {
 
     }
 
-    private fun buildNotification(taskTitle: String, task: String) {
+    private fun buildNotification(taskID : String, taskTitle: String, task: String) {
         val intent = Intent(requireActivity(), TaskDetailActivity::class.java)
+        intent.putExtra("TASK_ID",taskID)
 
-        //immutable since no changes after clicking notification
         val pendingIntent =
-            PendingIntent.getActivity(requireActivity(), 0, intent, PendingIntent.FLAG_MUTABLE)
+            PendingIntent.getActivity(requireActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
 
         //api>=26 requires notification channel
         notificationChannel =
@@ -195,7 +195,7 @@ class DisplayTaskFragment : Fragment() {
     }
 
     private fun refreshList() {
-        FirestoreFunctions.getTask(requireContext(), updateList = {
+        FirestoreFunctions.getTaskList(requireContext(), updateList = {
             viewModel.setTaskList(it)
         })
     }

@@ -36,7 +36,16 @@ object FirestoreFunctions {
             }
     }
 
-    fun getTask(context: Context, updateList: (List<DocumentSnapshot>) -> (Unit)) {
+    fun getTask(context: Context, documentPath: String, returnTask: (DocumentSnapshot) -> (Unit)) {
+        val firebaseFirestore = FirebaseFirestore.getInstance()
+        val user = FirebaseAuth.getInstance().currentUser
+
+        firebaseFirestore.collection(user!!.email.toString()).document(documentPath).get()
+            .addOnSuccessListener { returnTask(it) }
+            .addOnFailureListener { AppConstants.notifyUser(context, "Unable to load Task") }
+    }
+
+    fun getTaskList(context: Context, updateList: (List<DocumentSnapshot>) -> (Unit)) {
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val user = FirebaseAuth.getInstance().currentUser
 
@@ -129,22 +138,22 @@ object FirestoreFunctions {
         }
     }
 
-    fun unpinAllTasks(refreshList: () -> Unit,manageNotification: () -> Unit) {
+    fun unpinAllTasks(refreshList: () -> Unit, manageNotification: () -> Unit) {
         val email = FirebaseAuth.getInstance().currentUser!!.email
 
         if (email != null) {
             val collectionReference = FirebaseFirestore.getInstance().collection(email)
 
-            collectionReference.whereEqualTo("pinned",true).get()
+            collectionReference.whereEqualTo("pinned", true).get()
                 .addOnSuccessListener {
-                    for(i in it.documents){
-                        collectionReference.document(i.id).update("pinned",false)
+                    for (i in it.documents) {
+                        collectionReference.document(i.id).update("pinned", false)
                             .addOnSuccessListener { refreshList() }
                     }
                     manageNotification()
                 }
                 .addOnFailureListener {
-                    Log.d(TAG,"unpinAllTasks ${it.message}")
+                    Log.d(TAG, "unpinAllTasks ${it.message}")
                 }
         }
     }
