@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -61,6 +60,25 @@ class DetailsFragment : Fragment() {
         binding.apply {
             pinButton.setOnClickListener {
                 viewModel.setPinnedStatus(!viewModel.isPinned.value!!)
+            }
+
+            backButton.setOnClickListener {
+                requireActivity().finish()
+            }
+
+            saveTask.setOnClickListener {
+
+                FirestoreFunctions.updateTask(
+                    requireContext(),
+                    docID!!,
+                    TaskModel(
+                        titleEditText.text.toString(),
+                        taskEditText.text.toString(),
+                        viewModel.isPinned.value
+                    ), closeCurrentActivity = {
+                        requireActivity().finish()
+                    }
+                )
             }
         }
     }
