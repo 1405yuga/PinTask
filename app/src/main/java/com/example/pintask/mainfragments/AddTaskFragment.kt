@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -42,16 +41,9 @@ class AddTaskFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.isPinned.observe(viewLifecycleOwner, Observer {
-            val imageValue = if (it) {
-                R.drawable.pushpin_selected
-            } else {
-                R.drawable.pushpin_unselected
-            }
-            binding.pinButton.setImageDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    imageValue
-                )
+            binding.pinButton.setImageResource(
+                if (it) R.drawable.pushpin_selected
+                else R.drawable.pushpin_unselected
             )
         })
 

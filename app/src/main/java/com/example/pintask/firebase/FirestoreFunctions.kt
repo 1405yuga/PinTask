@@ -36,6 +36,15 @@ object FirestoreFunctions {
             }
     }
 
+    fun updateTask(context: Context, documentPath: String,task: TaskModel){
+        val firebaseFirestore = FirebaseFirestore.getInstance()
+        val user = FirebaseAuth.getInstance().currentUser
+
+        firebaseFirestore.collection(user!!.email.toString()).document(documentPath).set(task)
+            .addOnSuccessListener { AppConstants.notifyUser(context,"Task updated successfully")  }
+            .addOnFailureListener {AppConstants.notifyUser(context,"Cannot update task")}
+    }
+
     fun getTask(context: Context, documentPath: String, returnTask: (DocumentSnapshot) -> (Unit)) {
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val user = FirebaseAuth.getInstance().currentUser

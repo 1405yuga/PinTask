@@ -171,7 +171,7 @@ class DisplayTaskFragment : Fragment() {
 
     private fun buildNotification(taskID : String, taskTitle: String, task: String) {
         val intent = Intent(requireActivity(), TaskDetailActivity::class.java)
-        intent.putExtra("TASK_ID",taskID)
+        intent.putExtra(AppConstants.KEY_TASK_ID,taskID)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
        // existing PendingIntent is canceled(CANCEL_CURRENT)
@@ -225,12 +225,10 @@ class DisplayTaskFragment : Fragment() {
     }
 
     private fun deleteAccountConfirmed() {
-        //  delete account
         FirestoreFunctions.deleteUser(requireContext(), ::signOutConfirmed)
     }
 
     private fun clearAllTasksConfirmed() {
-        //  delete account
         FirestoreFunctions.clearAllTasks(requireContext(), ::refreshList)
     }
 
