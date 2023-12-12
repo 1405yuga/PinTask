@@ -189,8 +189,8 @@ class DisplayTaskFragment : Fragment() {
             .setContentText(task)
             .setContentIntent(pendingIntent)
             .setOngoing(true) // to keep notification in notification bar
-            .setAutoCancel(true)
             .setOnlyAlertOnce(true)
+            .setStyle(Notification.BigTextStyle().bigText(task)) // expandable notification
 
     }
 
