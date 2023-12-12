@@ -68,7 +68,7 @@ class DisplayTaskFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDisplayTaskBinding.inflate(inflater, container, false)
-        taskListAdapter = TaskListAdapter(requireContext(),::refreshList)
+        taskListAdapter = TaskListAdapter(requireContext(), ::refreshList)
 
         notificationManager =
             requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -113,7 +113,7 @@ class DisplayTaskFragment : Fragment() {
                 error(R.drawable.baseline_account_box_24)
             }
             navigationMenu.setOnClickListener {
-                binding.drawerLayout.open()
+                drawerLayout.open()
             }
             navigationView.setNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
@@ -141,6 +141,15 @@ class DisplayTaskFragment : Fragment() {
                             "Cancelled",
                             ::clearAllTasksConfirmed
                         )
+                        drawerLayout.close()
+                        true
+                    }
+
+                    R.id.unpinAllTasks -> {
+                        FirestoreFunctions.unpinAllTasks(::refreshList, manageNotification = {
+                            notificationManager.cancelAll()
+                        })
+                        drawerLayout.close()
                         true
                     }
 

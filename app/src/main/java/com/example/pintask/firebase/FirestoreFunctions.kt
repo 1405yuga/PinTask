@@ -128,4 +128,24 @@ object FirestoreFunctions {
                 .addOnFailureListener { AppConstants.notifyUser(context, "${it.message}") }
         }
     }
+
+    fun unpinAllTasks(refreshList: () -> Unit,manageNotification: () -> Unit) {
+        val email = FirebaseAuth.getInstance().currentUser!!.email
+
+        if (email != null) {
+            val collectionReference = FirebaseFirestore.getInstance().collection(email)
+
+            collectionReference.whereEqualTo("pinned",true).get()
+                .addOnSuccessListener {
+                    for(i in it.documents){
+                        collectionReference.document(i.id).update("pinned",false)
+                            .addOnSuccessListener { refreshList() }
+                    }
+                    manageNotification()
+                }
+                .addOnFailureListener {
+                    Log.d(TAG,"unpinAllTasks ${it.message}")
+                }
+        }
+    }
 }

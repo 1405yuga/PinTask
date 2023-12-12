@@ -15,8 +15,6 @@ import com.example.pintask.firebase.FirestoreFunctions
 import com.example.pintask.model.TaskModel
 import com.google.firebase.firestore.DocumentSnapshot
 
-private val TAG = "TaskListAdapter tag"
-
 class TaskListAdapter(private val context: Context, private val refreshList: () -> (Unit)) :
     ListAdapter<DocumentSnapshot, TaskListAdapter.TaskViewHolder>(DiffCallBack) {
     companion object {
@@ -56,7 +54,6 @@ class TaskListAdapter(private val context: Context, private val refreshList: () 
             //  bind data
             binding.apply {
                 val currentTask = documentSnapshot.toObject(TaskModel::class.java)
-                Log.d(TAG, "currentTask : $currentTask")
 
                 titleText.text = currentTask!!.taskTitle
                 taskText.text = currentTask.task
