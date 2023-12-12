@@ -52,26 +52,15 @@ class AddTaskFragment : Fragment() {
             pinButton.setOnClickListener {
                 viewModel.setPinnedStatus(!viewModel.isPinned.value!!)
             }
-            titleEditText.addTextChangedListener { title ->
-                if (!title.isNullOrEmpty()) viewModel.setTaskTitle(title.toString())
-                else viewModel.setTaskTitle(AppConstants.DEFAULT_TASK_TITLE)
-            }
-
-            taskEditText.addTextChangedListener { task ->
-                if (!task.isNullOrEmpty()) viewModel.setTask(task.toString())
-                else viewModel.setTask(AppConstants.DEFAULT_TASK_DESC)
-            }
 
             saveTask.setOnClickListener {
-                //  add task
-                val newTask =
-                    TaskModel(viewModel.title.value, viewModel.task.value, viewModel.isPinned.value)
 
-                FirestoreFunctions.addTask(newTask, requireContext(), resetTask = {
-                    viewModel.setTaskTitle(AppConstants.DEFAULT_TASK_TITLE)
-                    viewModel.setTask(AppConstants.DEFAULT_TASK_DESC)
-                    viewModel.setPinnedStatus(AppConstants.DEFAULT_PINNED_VALUE)
-                }) {
+                FirestoreFunctions.addTask(
+                TaskModel(
+                    if(titleEditText.text.toString().trim().isNullOrEmpty()) AppConstants.DEFAULT_TASK_TITLE
+                    else titleEditText.text.toString().trim(),
+                    taskEditText.text.toString(),
+                    viewModel.isPinned.value), requireContext()) {
                     //navigate
                     findNavController().apply {
                         popBackStack(R.id.displayTaskFragment, true)

@@ -16,7 +16,6 @@ object FirestoreFunctions {
     fun addTask(
         task: TaskModel,
         context: Context,
-        resetTask: () -> Unit,
         navigateToFragment: () -> (Unit)
     ) {
         val firebaseFirestore = FirebaseFirestore.getInstance()
@@ -28,7 +27,6 @@ object FirestoreFunctions {
             .set(task)
             .addOnSuccessListener {
                 AppConstants.notifyUser(context, "Task added successfully")
-                resetTask()
                 navigateToFragment()
             }
             .addOnFailureListener {
