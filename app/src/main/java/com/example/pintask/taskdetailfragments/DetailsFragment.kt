@@ -31,7 +31,6 @@ class DetailsFragment : Fragment() {
     ): View? {
         binding = FragmentDetailsBinding.inflate(inflater,container,false)
         val docID : String? = requireActivity().intent.getStringExtra("TASK_ID")
-        Log.d(TAG, "ID $docID")
         if (docID != null) {
             FirestoreFunctions.getTask(requireContext(),docID, returnTask = {
                 val currentTask = it.toObject(TaskModel::class.java)

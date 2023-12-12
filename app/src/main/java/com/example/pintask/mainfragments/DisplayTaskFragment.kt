@@ -172,9 +172,11 @@ class DisplayTaskFragment : Fragment() {
     private fun buildNotification(taskID : String, taskTitle: String, task: String) {
         val intent = Intent(requireActivity(), TaskDetailActivity::class.java)
         intent.putExtra("TASK_ID",taskID)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
+       // existing PendingIntent is canceled(CANCEL_CURRENT)
         val pendingIntent =
-            PendingIntent.getActivity(requireActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
+            PendingIntent.getActivity(requireActivity(), taskID.toInt(), intent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE)
 
         //api>=26 requires notification channel
         notificationChannel =
