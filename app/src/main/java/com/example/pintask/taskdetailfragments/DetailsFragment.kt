@@ -1,5 +1,7 @@
 package com.example.pintask.taskdetailfragments
 
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,7 @@ import com.example.pintask.databinding.FragmentDetailsBinding
 import com.example.pintask.firebase.FirestoreFunctions
 import com.example.pintask.model.DetailsTaskViewModel
 import com.example.pintask.model.TaskModel
+import com.google.firebase.firestore.DocumentSnapshot
 
 private const val TAG = "DetailsFragment tag"
 
@@ -66,6 +69,12 @@ class DetailsFragment : Fragment() {
                 requireActivity().finish()
             }
 
+            deleteTaskButton.setOnClickListener {
+                FirestoreFunctions.deleteTask(requireContext(),docID!!){
+                    requireActivity().finish()
+                }
+            }
+
             saveTask.setOnClickListener {
 
                 FirestoreFunctions.updateTask(
@@ -98,5 +107,8 @@ class DetailsFragment : Fragment() {
         } else {
             AppConstants.notifyUser(requireContext(), "Unable to load Task")
         }
+    }
+    private fun removeFromNotification(documentSnapshot: Int, context: Context){
+
     }
 }

@@ -1,8 +1,6 @@
 package com.example.pintask.adapter
 
-import android.app.NotificationManager
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -10,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pintask.R
+import com.example.pintask.constants.AppConstants
 import com.example.pintask.databinding.CardTaskItemBinding
 import com.example.pintask.firebase.FirestoreFunctions
 import com.example.pintask.model.TaskModel
@@ -45,10 +44,6 @@ class TaskListAdapter(private val context: Context, private val refreshList: () 
             return R.drawable.pushpin_unselected
         }
 
-        private fun removeFromNotification(documentSnapshot: DocumentSnapshot,context: Context){
-            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.cancel(documentSnapshot.id.toInt())
-        }
 
         fun bind(documentSnapshot: DocumentSnapshot, context: Context, refreshList: () -> Unit) {
             //  bind data
@@ -75,14 +70,19 @@ class TaskListAdapter(private val context: Context, private val refreshList: () 
                             refreshList()
                         }, manageNotification = {
                             // remove from notification if un-pinned
-                            removeFromNotification(documentSnapshot, context)
+                            AppConstants.removeFromNotification(
+                                context,
+                                documentSnapshot.id.toInt()
+                            )
                         })
                 }
 
                 deleteTask.setOnClickListener {
-                    FirestoreFunctions.deleteTask(context,documentSnapshot.id, refreshList = {refreshList()},
-                        manageNotification = {
-                            removeFromNotification(documentSnapshot, context)
+                    FirestoreFunctions.deleteTask(
+                        context,
+                        documentSnapshot.id,
+                        onSuccessFunction = {
+                            refreshList()
                         })
                 }
             }

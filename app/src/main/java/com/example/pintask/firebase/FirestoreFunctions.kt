@@ -136,11 +136,11 @@ object FirestoreFunctions {
 
     }
 
+
     fun deleteTask(
         context: Context,
         id: String,
-        refreshList: () -> Unit,
-        manageNotification: () -> Unit
+        onSuccessFunction: () -> Unit
     ) {
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val email = FirebaseAuth.getInstance().currentUser!!.email
@@ -148,8 +148,8 @@ object FirestoreFunctions {
         if (email != null) {
             firebaseFirestore.collection(email).document(id).delete()
                 .addOnSuccessListener {
-                    refreshList()
-                    manageNotification()
+                    onSuccessFunction()
+                    AppConstants.removeFromNotification(context, id.toInt())
                 }
                 .addOnFailureListener { AppConstants.notifyUser(context, "${it.message}") }
         }
