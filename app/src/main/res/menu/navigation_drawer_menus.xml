@@ -17,7 +17,7 @@
             <item
                 android:id="@+id/uiMode"
                 android:icon="@drawable/light_mode_menu"
-                android:title="Light Mode" />
+                android:title="@string/ui_mode" />
         </menu>
     </item>
     <item android:title="Options">

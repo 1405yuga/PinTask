@@ -9,4 +9,5 @@
     <string name="delete_account">Delete Account</string>
     <string name="clear_all_tasks">Clear All Tasks</string>
     <string name="unpin_all_tasks">Unpin All tasks</string>
+    <string name="ui_mode">Light Mode</string>
 </resources>
