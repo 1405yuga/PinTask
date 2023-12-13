@@ -12,6 +12,14 @@
                 android:title="@string/delete_account" />
         </menu>
     </item>
+    <item android:title="Display Preferences">
+        <menu>
+            <item
+                android:id="@+id/uiMode"
+                android:icon="@drawable/light_mode_menu"
+                android:title="Light Mode" />
+        </menu>
+    </item>
     <item android:title="Options">
         <menu>
             <item

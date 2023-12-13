@@ -13,9 +13,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -26,6 +29,7 @@ import com.example.pintask.TaskDetailActivity
 import com.example.pintask.adapter.TaskListAdapter
 import com.example.pintask.constants.AppConstants
 import com.example.pintask.databinding.FragmentDisplayTaskBinding
+import com.example.pintask.datastore.PreferenceStore
 import com.example.pintask.firebase.FirestoreFunctions
 import com.example.pintask.model.TaskModel
 import com.example.pintask.model.TaskViewModel
@@ -34,6 +38,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 
 private val TAG = "DisplayTaskFragment tag"
 
@@ -47,8 +52,10 @@ class DisplayTaskFragment : Fragment() {
     private lateinit var notificationChannel: NotificationChannel
     private lateinit var notificationManager: NotificationManager
     private lateinit var notificationBuilder: Notification.Builder
+    private lateinit var preferenceStore: PreferenceStore
     private val channel_ID = "i.apps.notifications"
     private val description = "Test notification"
+    private var isDarkModeOn = false
 
     override fun onStart() {
         super.onStart()
@@ -69,10 +76,20 @@ class DisplayTaskFragment : Fragment() {
     ): View? {
         binding = FragmentDisplayTaskBinding.inflate(inflater, container, false)
         taskListAdapter = TaskListAdapter(requireContext(), ::refreshList)
-
         notificationManager =
             requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        preferenceStore = PreferenceStore(requireContext())
+        return binding.root
+    }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        applyBinding()
+        viewObservers()
+    }
+
+    private fun viewObservers() {
         viewModel.taskList.observe(viewLifecycleOwner, Observer {
             taskListAdapter.submitList(it)
 
@@ -85,7 +102,8 @@ class DisplayTaskFragment : Fragment() {
                     val notificationID = i.id.toInt()
 
                     if (currentTask!!.pinned == true) {
-                        buildNotification(i.id,
+                        buildNotification(
+                            i.id,
                             currentTask.taskTitle ?: AppConstants.DEFAULT_TASK_TITLE,
                             currentTask.task ?: AppConstants.DEFAULT_TASK_DESC
                         )
@@ -99,13 +117,14 @@ class DisplayTaskFragment : Fragment() {
 
         })
 
-        return binding.root
+        preferenceStore.userUIPreference.asLiveData().observe(viewLifecycleOwner, Observer {
+            isDarkModeOn = it
+            if (it) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        })
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    private fun applyBinding() {
         binding.apply {
             accountImage.load(firebaseAuth.currentUser?.photoUrl) {
                 transformations(CircleCropTransformation())
@@ -153,6 +172,15 @@ class DisplayTaskFragment : Fragment() {
                         true
                     }
 
+                    R.id.uiMode -> {
+                        isDarkModeOn = !isDarkModeOn
+                        lifecycleScope.launch {
+                            preferenceStore.saveUIMode(requireContext(), isDarkModeOn)
+                        }
+                        drawerLayout.close()
+                        true
+                    }
+
                     else -> false
                 }
             }
@@ -166,17 +194,21 @@ class DisplayTaskFragment : Fragment() {
                 navigateToFragment(R.id.addTaskFragment)
             }
         }
-
     }
 
-    private fun buildNotification(taskID : String, taskTitle: String, task: String) {
+    private fun buildNotification(taskID: String, taskTitle: String, task: String) {
         val intent = Intent(requireActivity(), TaskDetailActivity::class.java)
-        intent.putExtra(AppConstants.KEY_TASK_ID,taskID)
+        intent.putExtra(AppConstants.KEY_TASK_ID, taskID)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
-       // existing PendingIntent is canceled(CANCEL_CURRENT)
+        // existing PendingIntent is canceled(CANCEL_CURRENT)
         val pendingIntent =
-            PendingIntent.getActivity(requireActivity(), taskID.toInt(), intent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE)
+            PendingIntent.getActivity(
+                requireActivity(),
+                taskID.toInt(),
+                intent,
+                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
+            )
 
         //api>=26 requires notification channel
         notificationChannel =
