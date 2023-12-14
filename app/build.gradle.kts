@@ -60,4 +60,5 @@ dependencies {
 
     implementation ("androidx.datastore:datastore-preferences:1.0.0") //datastore
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2") //livedata
+    implementation ("androidx.core:core-splashscreen:1.1.0-alpha02") //splashscreen
 }

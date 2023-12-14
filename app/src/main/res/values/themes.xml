@@ -7,4 +7,10 @@
     </style>
 
     <style name="Theme.PinTask" parent="Base.Theme.PinTask" />
+    <style name="Theme.PinTaskSplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/seed</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimationDuration">600</item>
+        <item name="postSplashScreenTheme">@style/Theme.PinTask</item>
+    </style>
 </resources>
