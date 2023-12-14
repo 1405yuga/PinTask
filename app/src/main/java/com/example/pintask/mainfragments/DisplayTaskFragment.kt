@@ -177,7 +177,6 @@ class DisplayTaskFragment : Fragment() {
                         lifecycleScope.launch {
                             preferenceStore.saveUIMode(requireContext(), isDarkModeOn)
                         }
-                        drawerLayout.close()
                         true
                     }
 

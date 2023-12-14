@@ -35,4 +35,6 @@
     <color name="md_theme_outlineVariant">#C0C9BF</color>
     <color name="md_theme_scrim">#000000</color>
 
+    <color name="transparent">#00FFFFFF</color>
+
 </resources>
