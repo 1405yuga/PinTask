@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -12,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.pintask.R
 import com.example.pintask.constants.AppConstants
 import com.example.pintask.databinding.FragmentAddTaskBinding
-import com.example.pintask.firebase.FirestoreFunctions
+import com.example.pintask.appfunctions.FirestoreFunctions
 import com.example.pintask.model.TaskModel
 import com.example.pintask.model.TaskViewModel
 import com.google.firebase.auth.FirebaseAuth

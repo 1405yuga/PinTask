@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pintask.R
 import com.example.pintask.constants.AppConstants
 import com.example.pintask.databinding.CardTaskItemBinding
-import com.example.pintask.firebase.FirestoreFunctions
+import com.example.pintask.appfunctions.FirestoreFunctions
 import com.example.pintask.model.TaskModel
 import com.google.firebase.firestore.DocumentSnapshot
 

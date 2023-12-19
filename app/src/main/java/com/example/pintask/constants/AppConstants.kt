@@ -14,11 +14,10 @@ import com.example.pintask.TaskDetailActivity
 import com.example.pintask.datastore.PreferenceStore
 
 object AppConstants {
-    val DEFAULT_TASK_TITLE = "Untitled task"
-    val DEFAULT_TASK_DESC = ""
-    val DEFAULT_PINNED_VALUE = false
-
-    val KEY_TASK_ID = "TASK_ID"
+    const val DEFAULT_TASK_TITLE = "Untitled task"
+    const val DEFAULT_TASK_DESC = ""
+    const val DEFAULT_PINNED_VALUE = false
+    const val KEY_TASK_ID = "TASK_ID"
 
     fun notifyUser(context: Context, message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
@@ -31,10 +30,10 @@ object AppConstants {
     }
 
 
-    private val channel_ID = "i.apps.notifications"
-    private val description = "Test notification"
+    private const val channel_ID = "i.apps.notifications"
+    private const val description = "Test notification"
 
-    fun buildNotification(context: Context,taskID: String, taskTitle: String, task: String) : Notification.Builder{
+    fun buildNotification(context: Context,taskID: String, taskTitle: String, task: String){
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -67,7 +66,7 @@ object AppConstants {
             .setOnlyAlertOnce(true)
             .setStyle(Notification.BigTextStyle().bigText(task)) // expandable notification
 
-        return notificationBuilder
+        notificationManager.notify(taskID.toInt(), notificationBuilder.build())
     }
 
 

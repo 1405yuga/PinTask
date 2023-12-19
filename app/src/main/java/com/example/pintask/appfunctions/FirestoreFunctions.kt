@@ -1,4 +1,4 @@
-package com.example.pintask.firebase
+package com.example.pintask.appfunctions
 
 import android.content.Context
 import android.util.Log

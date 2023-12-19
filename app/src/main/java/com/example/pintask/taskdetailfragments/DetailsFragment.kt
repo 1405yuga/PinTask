@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import com.example.pintask.R
 import com.example.pintask.constants.AppConstants
 import com.example.pintask.databinding.FragmentDetailsBinding
-import com.example.pintask.firebase.FirestoreFunctions
+import com.example.pintask.appfunctions.FirestoreFunctions
 import com.example.pintask.model.DetailsTaskViewModel
 import com.example.pintask.model.TaskModel
 
@@ -83,8 +83,20 @@ class DetailsFragment : Fragment() {
                         ) AppConstants.DEFAULT_TASK_TITLE
                         else titleEditText.text.toString().trim(),
                         taskEditText.text.toString(),
-                        viewModel.isPinned.value), manageNotification = {
-                        // TODO: update notification                                          
+                        viewModel.isPinned.value
+                    ), manageNotification = {
+                        // TODO: update notification
+                        if (viewModel.isPinned.value == false) AppConstants.removeFromNotification(
+                            requireContext(),
+                            docID!!.toInt()
+                        )
+                        else AppConstants.buildNotification(
+                            requireContext(), docID!!, if (titleEditText.text.toString().trim()
+                                    .isNullOrEmpty()
+                            ) AppConstants.DEFAULT_TASK_TITLE
+                            else titleEditText.text.toString().trim(),
+                            taskEditText.text.toString()
+                        )
                     }, closeCurrentActivity = {
                         requireActivity().finish()
                     }

@@ -25,7 +25,7 @@ import com.example.pintask.adapter.TaskListAdapter
 import com.example.pintask.constants.AppConstants
 import com.example.pintask.databinding.FragmentDisplayTaskBinding
 import com.example.pintask.datastore.PreferenceStore
-import com.example.pintask.firebase.FirestoreFunctions
+import com.example.pintask.appfunctions.FirestoreFunctions
 import com.example.pintask.model.TaskModel
 import com.example.pintask.model.TaskViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -94,13 +94,12 @@ class DisplayTaskFragment : Fragment() {
                     val notificationID = i.id.toInt()
 
                     if (currentTask!!.pinned == true) {
-                        notificationBuilder = AppConstants.buildNotification(
+                        AppConstants.buildNotification(
                             requireContext(),
                             i.id,
                             currentTask.taskTitle ?: AppConstants.DEFAULT_TASK_TITLE,
                             currentTask.task ?: AppConstants.DEFAULT_TASK_DESC
                         )
-                        notificationManager.notify(notificationID, notificationBuilder.build())
                     }
                 }
             } else {
