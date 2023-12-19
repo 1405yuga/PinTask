@@ -78,10 +78,14 @@ class DetailsFragment : Fragment() {
                     requireContext(),
                     docID!!,
                     TaskModel(
-                        if(titleEditText.text.toString().trim().isNullOrEmpty()) AppConstants.DEFAULT_TASK_TITLE
+                        if (titleEditText.text.toString().trim()
+                                .isNullOrEmpty()
+                        ) AppConstants.DEFAULT_TASK_TITLE
                         else titleEditText.text.toString().trim(),
                         taskEditText.text.toString(),
-                        viewModel.isPinned.value), closeCurrentActivity = {
+                        viewModel.isPinned.value), manageNotification = {
+                        // TODO: update notification                                          
+                    }, closeCurrentActivity = {
                         requireActivity().finish()
                     }
                 )

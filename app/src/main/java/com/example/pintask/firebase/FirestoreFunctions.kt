@@ -38,6 +38,7 @@ object FirestoreFunctions {
         context: Context,
         documentPath: String,
         task: TaskModel,
+        manageNotification: () -> Unit,
         closeCurrentActivity: () -> (Unit)
     ) {
         val firebaseFirestore = FirebaseFirestore.getInstance()
@@ -46,6 +47,7 @@ object FirestoreFunctions {
         firebaseFirestore.collection(user!!.email.toString()).document(documentPath).set(task)
             .addOnSuccessListener {
                 AppConstants.notifyUser(context, "Task updated successfully")
+                manageNotification()
                 closeCurrentActivity()
             }
             .addOnFailureListener { AppConstants.notifyUser(context, "Cannot update task") }
