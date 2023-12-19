@@ -11,6 +11,7 @@ import com.example.pintask.R
 import com.example.pintask.constants.AppConstants
 import com.example.pintask.databinding.FragmentDetailsBinding
 import com.example.pintask.appfunctions.FirestoreFunctions
+import com.example.pintask.appfunctions.NotificationFunctions
 import com.example.pintask.model.DetailsTaskViewModel
 import com.example.pintask.model.TaskModel
 
@@ -86,11 +87,11 @@ class DetailsFragment : Fragment() {
                         viewModel.isPinned.value
                     ), manageNotification = {
                         // TODO: update notification
-                        if (viewModel.isPinned.value == false) AppConstants.removeFromNotification(
+                        if (viewModel.isPinned.value == false) NotificationFunctions.removeFromNotification(
                             requireContext(),
                             docID!!.toInt()
                         )
-                        else AppConstants.buildNotification(
+                        else NotificationFunctions.buildNotification(
                             requireContext(), docID!!, if (titleEditText.text.toString().trim()
                                     .isNullOrEmpty()
                             ) AppConstants.DEFAULT_TASK_TITLE
