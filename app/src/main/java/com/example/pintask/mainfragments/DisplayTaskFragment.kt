@@ -1,12 +1,8 @@
 package com.example.pintask.mainfragments
 
 import android.app.Notification
-import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,7 +21,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.pintask.R
-import com.example.pintask.TaskDetailActivity
 import com.example.pintask.adapter.TaskListAdapter
 import com.example.pintask.constants.AppConstants
 import com.example.pintask.databinding.FragmentDisplayTaskBinding
@@ -49,12 +44,9 @@ class DisplayTaskFragment : Fragment() {
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var taskListAdapter: TaskListAdapter
     private val viewModel: TaskViewModel by activityViewModels()
-    private lateinit var notificationChannel: NotificationChannel
     private lateinit var notificationManager: NotificationManager
     private lateinit var notificationBuilder: Notification.Builder
     private lateinit var preferenceStore: PreferenceStore
-    private val channel_ID = "i.apps.notifications"
-    private val description = "Test notification"
     private var isDarkModeOn = false
 
     override fun onStart() {
@@ -73,7 +65,7 @@ class DisplayTaskFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDisplayTaskBinding.inflate(inflater, container, false)
         taskListAdapter = TaskListAdapter(requireContext(), ::refreshList)
         notificationManager =
@@ -102,7 +94,8 @@ class DisplayTaskFragment : Fragment() {
                     val notificationID = i.id.toInt()
 
                     if (currentTask!!.pinned == true) {
-                        buildNotification(
+                        notificationBuilder = AppConstants.buildNotification(
+                            requireContext(),
                             i.id,
                             currentTask.taskTitle ?: AppConstants.DEFAULT_TASK_TITLE,
                             currentTask.task ?: AppConstants.DEFAULT_TASK_DESC
@@ -194,38 +187,40 @@ class DisplayTaskFragment : Fragment() {
             }
         }
     }
+    /*
+        private fun buildNotification(taskID: String, taskTitle: String, task: String) {
+            val intent = Intent(requireActivity(), TaskDetailActivity::class.java)
+            intent.putExtra(AppConstants.KEY_TASK_ID, taskID)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
-    private fun buildNotification(taskID: String, taskTitle: String, task: String) {
-        val intent = Intent(requireActivity(), TaskDetailActivity::class.java)
-        intent.putExtra(AppConstants.KEY_TASK_ID, taskID)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            // existing PendingIntent is canceled(CANCEL_CURRENT)
+            val pendingIntent =
+                PendingIntent.getActivity(
+                    requireActivity(),
+                    taskID.toInt(),
+                    intent,
+                    PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
+                )
 
-        // existing PendingIntent is canceled(CANCEL_CURRENT)
-        val pendingIntent =
-            PendingIntent.getActivity(
-                requireActivity(),
-                taskID.toInt(),
-                intent,
-                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
-            )
+            //api>=26 requires notification channel
+            notificationChannel =
+                NotificationChannel(channel_ID, description, NotificationManager.IMPORTANCE_HIGH)
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.GREEN
+            notificationManager.createNotificationChannel(notificationChannel)
 
-        //api>=26 requires notification channel
-        notificationChannel =
-            NotificationChannel(channel_ID, description, NotificationManager.IMPORTANCE_HIGH)
-        notificationChannel.enableLights(true)
-        notificationChannel.lightColor = Color.GREEN
-        notificationManager.createNotificationChannel(notificationChannel)
+            notificationBuilder = Notification.Builder(requireActivity(), channel_ID)
+                .setSmallIcon(R.drawable.pushpin_selected)
+                .setContentTitle(taskTitle)
+                .setContentText(task)
+                .setContentIntent(pendingIntent)
+                .setOngoing(true) // to keep notification in notification bar
+                .setOnlyAlertOnce(true)
+                .setStyle(Notification.BigTextStyle().bigText(task)) // expandable notification
 
-        notificationBuilder = Notification.Builder(requireActivity(), channel_ID)
-            .setSmallIcon(R.drawable.pushpin_selected)
-            .setContentTitle(taskTitle)
-            .setContentText(task)
-            .setContentIntent(pendingIntent)
-            .setOngoing(true) // to keep notification in notification bar
-            .setOnlyAlertOnce(true)
-            .setStyle(Notification.BigTextStyle().bigText(task)) // expandable notification
+        }
 
-    }
+     */
 
     private fun refreshList() {
         FirestoreFunctions.getTaskList(requireContext(), updateList = {
