@@ -30,4 +30,6 @@
     <color name="md_theme_surfaceTint">#7CDA9C</color>
     <color name="md_theme_outlineVariant">#414942</color>
     <color name="md_theme_scrim">#000000</color>
+
+    <color name="md_theme_material_surface">#1E2620</color>
 </resources>
