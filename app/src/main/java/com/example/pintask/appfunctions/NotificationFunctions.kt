@@ -22,24 +22,22 @@ object NotificationFunctions {
     private const val channel_ID = "i.apps.notifications"
     private const val description = "Test notification"
 
-    fun buildNotification(context: Context, taskID: String, taskTitle: String, task: String){
+    fun buildNotification(context: Context, taskID: String, taskTitle: String, task: String) {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val intent = Intent(context, TaskDetailActivity::class.java)
         intent.putExtra(AppConstants.KEY_TASK_ID, taskID)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
-        // existing PendingIntent is canceled(CANCEL_CURRENT)
-        val pendingIntent =
-            PendingIntent.getActivity(
-                context,
-                taskID.toInt(),
-                intent,
-                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
-            )
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            taskID.toInt(),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE // Use these flags for stability and to ensure the correct behavior.
+        )
 
-        //api>=26 requires notification channel
+        // Ensure notification channel exists for API >= 26
         val notificationChannel =
             NotificationChannel(channel_ID, description, NotificationManager.IMPORTANCE_HIGH)
         notificationChannel.enableLights(true)
@@ -51,11 +49,12 @@ object NotificationFunctions {
             .setContentTitle(taskTitle)
             .setContentText(task)
             .setContentIntent(pendingIntent)
-            .setOngoing(true) // to keep notification in notification bar
+            .setOngoing(true) // Ensures notification stays in the status bar
             .setOnlyAlertOnce(true)
-            .setStyle(Notification.BigTextStyle().bigText(task)) // expandable notification
+            .setStyle(Notification.BigTextStyle().bigText(task)) // Expandable notification
 
         notificationManager.notify(taskID.toInt(), notificationBuilder.build())
     }
+
 
 }

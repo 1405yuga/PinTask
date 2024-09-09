@@ -149,7 +149,7 @@ object FirestoreFunctions {
             firebaseFirestore.collection(email).document(id).delete()
                 .addOnSuccessListener {
                     onSuccessFunction()
-                    AppConstants.removeFromNotification(context, id.toInt())
+                    NotificationFunctions.removeFromNotification(context, id.toInt())
                 }
                 .addOnFailureListener { AppConstants.notifyUser(context, "${it.message}") }
         }

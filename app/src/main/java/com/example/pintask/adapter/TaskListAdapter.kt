@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pintask.R
-import com.example.pintask.constants.AppConstants
-import com.example.pintask.databinding.CardTaskItemBinding
 import com.example.pintask.appfunctions.FirestoreFunctions
+import com.example.pintask.appfunctions.NotificationFunctions
+import com.example.pintask.databinding.CardTaskItemBinding
 import com.example.pintask.model.TaskModel
 import com.google.firebase.firestore.DocumentSnapshot
+
+private const val TAG = "TaskListAdapter tag"
 
 class TaskListAdapter(private val context: Context, private val refreshList: () -> (Unit)) :
     ListAdapter<DocumentSnapshot, TaskListAdapter.TaskViewHolder>(DiffCallBack) {
@@ -44,7 +46,6 @@ class TaskListAdapter(private val context: Context, private val refreshList: () 
             return R.drawable.pushpin_unselected
         }
 
-
         fun bind(documentSnapshot: DocumentSnapshot, context: Context, refreshList: () -> Unit) {
             //  bind data
             binding.apply {
@@ -70,10 +71,21 @@ class TaskListAdapter(private val context: Context, private val refreshList: () 
                             refreshList()
                         }, manageNotification = {
                             // remove from notification if un-pinned
-                            AppConstants.removeFromNotification(
-                                context,
-                                documentSnapshot.id.toInt()
-                            )
+                            if (updatePinValue) {
+                                // Create or update the notification when pinned
+                                NotificationFunctions.buildNotification(
+                                    context,
+                                    documentSnapshot.id,
+                                    currentTask.taskTitle.toString(),
+                                    currentTask.task.toString()
+                                )
+                            } else {
+                                // Remove the notification if un-pinned
+                                NotificationFunctions.removeFromNotification(
+                                    context,
+                                    documentSnapshot.id.toInt()
+                                )
+                            }
                         })
                 }
 
