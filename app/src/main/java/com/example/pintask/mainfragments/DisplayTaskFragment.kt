@@ -2,6 +2,7 @@ package com.example.pintask.mainfragments
 
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -171,6 +173,23 @@ class DisplayTaskFragment : Fragment() {
                         true
                     }
 
+                    R.id.developer -> {
+                        drawerLayout.close()
+                        openUrl("https://github.com/1405yuga/")
+                        true
+                    }
+
+                    R.id.doc -> {
+                        drawerLayout.close()
+                        openUrl("https://github.com/1405yuga/PinTask/blob/main/README.md")
+                        true
+                    }
+
+                    R.id.exit -> {
+                        requireActivity().finish()
+                        true
+                    }
+
                     else -> false
                 }
             }
@@ -184,6 +203,10 @@ class DisplayTaskFragment : Fragment() {
                 navigateToFragment(R.id.addTaskFragment)
             }
         }
+    }
+
+    private fun openUrl(url: String) {
+        startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
     }
 
     private fun refreshList() {
