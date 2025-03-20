@@ -36,6 +36,9 @@ Using the `pin` icon, users can add or remove tasks from the notification. This 
 
 <img src="https://github.com/user-attachments/assets/81a3355d-03a9-468d-adb0-9ec1d9e75f63" width="273"/>
 
+<br />
+<br />
+
 - Alternatively, they can pin a task from the displayed list.
   
 <img src="https://github.com/user-attachments/assets/52d44393-fa5e-4163-9b81-2dc96e8f0155" width="273"/>
@@ -56,6 +59,8 @@ Account consists of ` SignOut ` and ` Delete Account `menu .
 
 <img src="https://github.com/user-attachments/assets/9c1b7673-5048-49ca-839a-51fa367f5836" width="273"/>
 
+<br />
+<br />
 
 - In the `Delete Account` menu, users can permanently delete their account and all data will be lost. A confirmation dialog appears before the deletion. If the user clicks `Yes`, the account will be deleted, and they will be redirected to the SignIn screen.
 
@@ -76,6 +81,9 @@ The Options menu consists of ` Clear All Tasks ` and ` Unpin All Tasks `.
   
 <img src="https://github.com/user-attachments/assets/84bbfa0c-f911-428d-b4ab-4a2d5a6b55c7" width="273"/>
 
+<br />
+<br />
+
 - ` Unpin All Tasks `: Unpins and removes all pinned tasks from the notification.
 
 <img src="https://github.com/user-attachments/assets/e4a7eea3-9188-4576-ac94-8d95f284d2ef" width="273"/>
@@ -87,6 +95,9 @@ The About menu consists of ` Developer ` and ` Documentations `.
 - ` Developer ` menu navigates to the developer's profile.
   
 <img src="https://github.com/user-attachments/assets/fece9722-84cf-4e8f-b732-5d150156e838" width="273"/>
+
+<br />
+<br />
 
 - ` Documentations ` menu navigates to the documentation page which describes how to use this app.
 
